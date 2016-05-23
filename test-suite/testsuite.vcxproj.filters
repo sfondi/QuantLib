@@ -417,6 +417,9 @@
     <ClCompile Include="observable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="simultaneouscurvebootstrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="americanoption.hpp">
@@ -825,6 +828,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="observable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="simultaneouscurvebootstrap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

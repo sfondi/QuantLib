@@ -740,6 +740,7 @@
     <ClCompile Include="sampledcurve.cpp" />
     <ClCompile Include="schedule.cpp" />
     <ClCompile Include="shortratemodels.cpp" />
+    <ClCompile Include="simultaneouscurvebootstrap.cpp" />
     <ClCompile Include="solvers.cpp" />
     <ClCompile Include="spreadoption.cpp" />
     <ClCompile Include="stats.cpp" />
@@ -878,6 +879,7 @@
     <ClInclude Include="sampledcurve.hpp" />
     <ClInclude Include="schedule.hpp" />
     <ClInclude Include="shortratemodels.hpp" />
+    <ClInclude Include="simultaneouscurvebootstrap.hpp" />
     <ClInclude Include="solvers.hpp" />
     <ClInclude Include="spreadoption.hpp" />
     <ClInclude Include="stats.hpp" />

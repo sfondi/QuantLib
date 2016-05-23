@@ -481,6 +481,8 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ql\instruments\iboroisbasisswap.hpp" />
+    <ClInclude Include="ql\instruments\makeiboroisbasisswap.hpp" />
     <ClInclude Include="ql\math\polynomialmathfunction.hpp" />
     <ClInclude Include="ql\math\pascaltriangle.hpp" />
     <ClInclude Include="ql\rebatedexercise.hpp" />
@@ -1119,6 +1121,7 @@
     <ClInclude Include="ql\termstructures\interpolatedcurve.hpp" />
     <ClInclude Include="ql\termstructures\iterativebootstrap.hpp" />
     <ClInclude Include="ql\termstructures\localbootstrap.hpp" />
+    <ClInclude Include="ql\termstructures\multibootstrap.hpp" />
     <ClInclude Include="ql\termstructures\voltermstructure.hpp" />
     <ClInclude Include="ql\termstructures\yieldtermstructure.hpp" />
     <ClInclude Include="ql\termstructures\volatility\abcd.hpp" />
@@ -1185,6 +1188,7 @@
     <ClInclude Include="ql\termstructures\yield\forwardstructure.hpp" />
     <ClInclude Include="ql\termstructures\yield\impliedtermstructure.hpp" />
     <ClInclude Include="ql\termstructures\yield\nonlinearfittingmethods.hpp" />
+    <ClInclude Include="ql\termstructures\yield\oisbasisratehelper.hpp" />
     <ClInclude Include="ql\termstructures\yield\oisratehelper.hpp" />
     <ClInclude Include="ql\termstructures\yield\piecewiseyieldcurve.hpp" />
     <ClInclude Include="ql\termstructures\yield\piecewisezerospreadedtermstructure.hpp" />
@@ -1734,6 +1738,8 @@
     <ClInclude Include="ql\volatilitymodel.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ql\instruments\iboroisbasisswap.cpp" />
+    <ClCompile Include="ql\instruments\makeiboroisbasisswap.cpp" />
     <ClCompile Include="ql\math\polynomialmathfunction.cpp" />
     <ClCompile Include="ql\math\pascaltriangle.cpp" />
     <ClCompile Include="ql\patterns\observable.cpp" />
@@ -2197,6 +2203,7 @@
     <ClCompile Include="ql\termstructures\yield\flatforward.cpp" />
     <ClCompile Include="ql\termstructures\yield\forwardstructure.cpp" />
     <ClCompile Include="ql\termstructures\yield\nonlinearfittingmethods.cpp" />
+    <ClCompile Include="ql\termstructures\yield\oisbasisratehelper.cpp" />
     <ClCompile Include="ql\termstructures\yield\oisratehelper.cpp" />
     <ClCompile Include="ql\termstructures\yield\ratehelpers.cpp" />
     <ClCompile Include="ql\termstructures\yield\zeroyieldstructure.cpp" />
