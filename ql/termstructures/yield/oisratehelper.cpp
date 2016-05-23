@@ -35,10 +35,14 @@ namespace QuantLib {
                     const Period& tenor, // swap maturity
                     const Handle<Quote>& fixedRate,
                     const boost::shared_ptr<OvernightIndex>& overnightIndex,
-                    const Handle<YieldTermStructure>& discount)
+                    const Handle<YieldTermStructure>& discount,
+                    const Frequency paymentFrequency,
+                    const Handle<Quote>& spread
+                    )
     : RelativeDateRateHelper(fixedRate),
       settlementDays_(settlementDays), tenor_(tenor),
-      overnightIndex_(overnightIndex), discountHandle_(discount) {
+      overnightIndex_(overnightIndex), discountHandle_(discount),
+      paymentFrequency_(paymentFrequency), spread_(spread) {
         registerWith(overnightIndex_);
         registerWith(discountHandle_);
         initializeDates();
@@ -55,9 +59,12 @@ namespace QuantLib {
 
         // input discount curve Handle might be empty now but it could
         //    be assigned a curve later; use a RelinkableHandle here
+        Spread sp = spread_.empty() ? 0.0 : spread_->value();
         swap_ = MakeOIS(tenor_, clonedOvernightIndex, 0.0)
             .withDiscountingTermStructure(discountRelinkableHandle_)
-            .withSettlementDays(settlementDays_);
+            .withSettlementDays(settlementDays_)
+            .withPaymentFrequency(paymentFrequency_)
+            .withOvernightLegSpread(sp);
 
         earliestDate_ = swap_->startDate();
         latestDate_ = swap_->maturityDate();
