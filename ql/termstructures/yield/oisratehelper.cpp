@@ -3,6 +3,7 @@
 /*
  Copyright (C) 2009, 2012 Roland Lichters
  Copyright (C) 2009, 2012 Ferdinando Ametrano
+ Copyright (C) 2016 Stefano Fondi
 
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
@@ -38,9 +39,36 @@ namespace QuantLib {
                     const Handle<YieldTermStructure>& discount)
     : RelativeDateRateHelper(fixedRate),
       settlementDays_(settlementDays), tenor_(tenor),
-      overnightIndex_(overnightIndex), discountHandle_(discount) {
+      overnightIndex_(overnightIndex), discountHandle_(discount),
+      spread_(Handle<Quote>()), paymentFrequency_(Annual),
+      arithmeticAveragedCoupon_(false) {
         registerWith(overnightIndex_);
         registerWith(discountHandle_);
+        initializeDates();
+    }
+
+    // Specific constructor for the Arithmetic Averaged OIS
+    OISRateHelper::OISRateHelper(
+                    Natural settlementDays,
+                    const Period& tenor, // swap maturity
+                    const Handle<Quote>& fixedRate,
+                    const boost::shared_ptr<OvernightIndex>& overnightIndex,
+                    const Handle<Quote>& spread,
+                    Frequency paymentFrequency,
+                    Real meanReversionSpeed,
+                    Real volatility,
+                    bool byApprox,
+                    const Handle<YieldTermStructure>& discount)
+    : RelativeDateRateHelper(fixedRate),
+      settlementDays_(settlementDays), tenor_(tenor),
+      overnightIndex_(overnightIndex), discountHandle_(discount),
+      spread_(spread), paymentFrequency_(paymentFrequency),
+      arithmeticAveragedCoupon_(true),
+      mrs_(meanReversionSpeed), vol_(volatility),
+      byApprox_(byApprox){
+        registerWith(overnightIndex_);
+        registerWith(discountHandle_);
+        registerWith(spread_);
         initializeDates();
     }
 
@@ -53,11 +81,20 @@ namespace QuantLib {
         shared_ptr<OvernightIndex> clonedOvernightIndex =
             boost::dynamic_pointer_cast<OvernightIndex>(clonedIborIndex);
 
-        // input discount curve Handle might be empty now but it could
-        //    be assigned a curve later; use a RelinkableHandle here
-        swap_ = MakeOIS(tenor_, clonedOvernightIndex, 0.0)
-            .withDiscountingTermStructure(discountRelinkableHandle_)
-            .withSettlementDays(settlementDays_);
+        if (arithmeticAveragedCoupon_)
+            // input discount curve Handle might be empty now but it could
+            // be assigned a curve later; use a RelinkableHandle here
+            swap_ = MakeOIS(tenor_, clonedOvernightIndex, 0.0)
+                .withDiscountingTermStructure(discountRelinkableHandle_)
+                .withSettlementDays(settlementDays_)
+                .withPaymentFrequency(paymentFrequency_)
+                // arithmetic averaged coupon
+                .withArithmeticAverage(mrs_, vol_, byApprox_);
+        else
+            swap_ = MakeOIS(tenor_, clonedOvernightIndex, 0.0)
+                .withDiscountingTermStructure(discountRelinkableHandle_)
+                .withSettlementDays(settlementDays_)
+                .withPaymentFrequency(paymentFrequency_);
 
         earliestDate_ = swap_->startDate();
         latestDate_ = swap_->maturityDate();
@@ -83,7 +120,15 @@ namespace QuantLib {
         QL_REQUIRE(termStructure_ != 0, "term structure not set");
         // we didn't register as observers - force calculation
         swap_->recalculate();
-        return swap_->fairRate();
+        //return swap_->fairRate();
+        // weak implementation... to be improved
+        static const Spread basisPoint = 1.0e-4;
+        Real floatingLegNPV = swap_->overnightLegNPV();
+        Spread spread = spread_.empty() ? 0.0 : spread_->value();
+        Real spreadNPV = swap_->overnightLegBPS() / basisPoint*spread;
+        Real totNPV = -(floatingLegNPV + spreadNPV);
+        Real result = totNPV / (swap_->fixedLegBPS() / basisPoint);
+        return result;
     }
 
     void OISRateHelper::accept(AcyclicVisitor& v) {

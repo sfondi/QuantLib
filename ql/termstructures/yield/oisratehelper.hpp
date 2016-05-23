@@ -3,6 +3,7 @@
 /*
  Copyright (C) 2009, 2012 Roland Lichters
  Copyright (C) 2009, 2012 Ferdinando Ametrano
+ Copyright (C) 2016 Stefano Fondi
 
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
@@ -40,6 +41,19 @@ namespace QuantLib {
                       // exogenous discounting curve
                       const Handle<YieldTermStructure>& discountingCurve
                                             = Handle<YieldTermStructure>());
+        // Specific constructor for the Arithmetic Averaged OIS
+        OISRateHelper(Natural settlementDays,
+                      const Period& tenor, // swap maturity
+                      const Handle<Quote>& fixedRate,
+                      const boost::shared_ptr<OvernightIndex>& overnightIndex,
+                      const Handle<Quote>& spread,
+                      Frequency paymentFrequency,
+                      Real meanReversionSpeed,
+                      Real volatility,
+                      bool byApprox,
+                      // exogenous discounting curve
+                      const Handle<YieldTermStructure>& discountingCurve
+                                            = Handle<YieldTermStructure>());
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
@@ -65,6 +79,15 @@ namespace QuantLib {
 
         Handle<YieldTermStructure> discountHandle_;
         RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
+
+        Frequency paymentFrequency_;
+        Handle<Quote> spread_;
+
+        bool arithmeticAveragedCoupon_;
+        Real mrs_;
+        Real vol_;
+        bool byApprox_;
+ 
     };
 
     //! Rate helper for bootstrapping over Overnight Indexed Swap rates

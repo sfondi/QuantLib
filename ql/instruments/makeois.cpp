@@ -3,6 +3,7 @@
 /*
  Copyright (C) 2009, 2014, 2015 Ferdinando Ametrano
  Copyright (C) 2015 Paolo Mazzocchi
+ Copyright (C) 2016 Stefano Fondi
 
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
@@ -41,7 +42,12 @@ namespace QuantLib {
       isDefaultEOM_(true),
       type_(OvernightIndexedSwap::Payer), nominal_(1.0),
       overnightSpread_(0.0),
-      fixedDayCount_(overnightIndex->dayCounter()) {}
+      fixedDayCount_(overnightIndex->dayCounter()),
+      // except for the Fed Funds OIS, the coupon is not an arithmetic average of daily fixings
+      arithmeticAveragedCoupon_(false),
+      byApprox_(false),
+      mrs_(0.03),
+      vol_(0.00) {}
 
     MakeOIS::operator OvernightIndexedSwap() const {
         shared_ptr<OvernightIndexedSwap> ois = *this;
@@ -96,7 +102,10 @@ namespace QuantLib {
                                       schedule,
                                       0.0, // fixed rate
                                       fixedDayCount_,
-                                      overnightIndex_, overnightSpread_);
+                                      overnightIndex_,
+                                      overnightSpread_,
+                                      arithmeticAveragedCoupon_,
+                                      mrs_, vol_, byApprox_);
             if (engine_ == 0) {
                 Handle<YieldTermStructure> disc =
                                     overnightIndex_->forwardingTermStructure();
@@ -117,7 +126,10 @@ namespace QuantLib {
             OvernightIndexedSwap(type_, nominal_,
                                  schedule,
                                  usedFixedRate, fixedDayCount_,
-                                 overnightIndex_, overnightSpread_));
+                                 overnightIndex_,
+                                 overnightSpread_,
+                                 arithmeticAveragedCoupon_,
+                                 mrs_, vol_, byApprox_));
 
         if (engine_ == 0) {
             Handle<YieldTermStructure> disc =
@@ -205,6 +217,16 @@ namespace QuantLib {
 
     MakeOIS& MakeOIS::withOvernightLegSpread(Spread sp) {
         overnightSpread_ = sp;
+        return *this;
+    }
+
+    MakeOIS& MakeOIS::withArithmeticAverage(Real meanReversionSpeed,
+                                            Real volatility,
+                                            bool byApprox) {
+        arithmeticAveragedCoupon_ = true;
+        mrs_ = meanReversionSpeed;
+        vol_ = volatility;
+        byApprox_ = byApprox;
         return *this;
     }
 

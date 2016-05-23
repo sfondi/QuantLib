@@ -31,12 +31,19 @@ namespace QuantLib {
                     Rate fixedRate,
                     const DayCounter& fixedDC,
                     const boost::shared_ptr<OvernightIndex>& overnightIndex,
-                    Spread spread)
+                    Spread spread,
+                    bool arithmeticAveragedCoupon,
+                    Real meanReversionSpeed,
+                    Real volatility,
+                    bool byApprox)
     : Swap(2), type_(type),
       nominals_(std::vector<Real>(1, nominal)),
       paymentFrequency_(schedule.tenor().frequency()),
       fixedRate_(fixedRate), fixedDC_(fixedDC),
-      overnightIndex_(overnightIndex), spread_(spread) {
+      overnightIndex_(overnightIndex), spread_(spread),
+      arithmeticAveragedCoupon_(arithmeticAveragedCoupon),
+      mrs_(meanReversionSpeed), vol_(volatility),
+      byApprox_(byApprox) {
 
           initialize(schedule);
 
@@ -49,11 +56,18 @@ namespace QuantLib {
                     Rate fixedRate,
                     const DayCounter& fixedDC,
                     const boost::shared_ptr<OvernightIndex>& overnightIndex,
-                    Spread spread)
+                    Spread spread,
+                    bool arithmeticAveragedCoupon,
+                    Real meanReversionSpeed,
+                    Real volatility,
+                    bool byApprox)
     : Swap(2), type_(type), nominals_(nominals),
       paymentFrequency_(schedule.tenor().frequency()),
       fixedRate_(fixedRate), fixedDC_(fixedDC),
-      overnightIndex_(overnightIndex), spread_(spread) {
+      overnightIndex_(overnightIndex), spread_(spread),
+      arithmeticAveragedCoupon_(arithmeticAveragedCoupon),
+      mrs_(meanReversionSpeed), vol_(volatility),
+      byApprox_(byApprox) {
 
           initialize(schedule);
 
@@ -69,6 +83,19 @@ namespace QuantLib {
         legs_[1] = OvernightLeg(schedule, overnightIndex_)
             .withNotionals(nominals_)
             .withSpreads(spread_);
+
+        if (arithmeticAveragedCoupon_) {
+            boost::shared_ptr<FloatingRateCouponPricer> arithmeticPricer(
+                new ArithmeticAveragedOvernightIndexedCouponPricer(
+                    mrs_, vol_, byApprox_));
+            for (Size i = 0; i < legs_[1].size(); i++) {
+                boost::shared_ptr<
+                    OvernightIndexedCoupon> c = 
+                        boost::dynamic_pointer_cast<
+                            OvernightIndexedCoupon> (legs_[1][i]);
+                c->setPricer(arithmeticPricer);
+            }
+        }
 
         for (Size j=0; j<2; ++j) {
             for (Leg::iterator i = legs_[j].begin(); i!= legs_[j].end(); ++i)
