@@ -363,10 +363,12 @@ int main(int, char* []) {
         OisCurveInstruments.push_back(o60y);
 
         boost::shared_ptr<YieldTermStructure> OisCurve(
-                new PiecewiseYieldCurve<Discount, LogLinear>(
+                new PiecewiseYieldCurve<Discount, LogCubic>(
                 settlementDate, OisCurveInstruments,
-                termStructureDayCounter,
-                tolerance));
+                termStructureDayCounter, tolerance,
+                LogCubic(CubicInterpolation::Spline, true,
+                         CubicInterpolation::SecondDerivative, 0.0,
+                         CubicInterpolation::SecondDerivative, 0.0)));
 
         // Term structures that will be used for discounting cash flows
         RelinkableHandle<YieldTermStructure> discountingTermStructure;
@@ -448,7 +450,7 @@ int main(int, char* []) {
 
         // setup swaps
         Frequency swFixedLegFrequency = Semiannual;
-        BusinessDayConvention swFixedLegConvention = Unadjusted;
+        BusinessDayConvention swFixedLegConvention = ModifiedFollowing;
         DayCounter swFixedLegDayCounter = Actual365Fixed();
         boost::shared_ptr<IborIndex> swFloatingLegIndex(new GBPLibor(3*Months));
 
@@ -583,11 +585,14 @@ int main(int, char* []) {
         Libor3mCurveInstruments.push_back(s40y);
         Libor3mCurveInstruments.push_back(s50y);
         Libor3mCurveInstruments.push_back(s60y);
+
         boost::shared_ptr<YieldTermStructure> Libor3mCurve(
-            new PiecewiseYieldCurve<Discount,LogLinear>(
-                                          settlementDate, Libor3mCurveInstruments,
-                                          termStructureDayCounter,
-                                          tolerance));
+            new PiecewiseYieldCurve<Discount,LogCubic>(
+            settlementDate, Libor3mCurveInstruments,
+            termStructureDayCounter, tolerance,
+            LogCubic(CubicInterpolation::Spline, true,
+                     CubicInterpolation::SecondDerivative, 0.0,
+                     CubicInterpolation::SecondDerivative, 0.0)));
 
         // Term structure that will be used for forward rate forecasting
         RelinkableHandle<YieldTermStructure> forecastingTermStructure;
@@ -597,11 +602,12 @@ int main(int, char* []) {
             new GBPLibor(3 * Months, forecastingTermStructure));
 
         /*********************
-        * ADD Histo Fix *
+        * ADD needed Histo Fix *
         **********************/
-        Date fixdate(30, September, 2016);
         Rate fix = 0.0038275;
-        Libor3MIndex->addFixing(fixdate, fix);
+        Libor3MIndex->addFixing(Date(30, September, 2016), fix);
+        fix = 0.0046056;
+        Libor3MIndex->addFixing(Date(29, July, 2016), fix);
 
         /*********************
         * SWAP 1 TO BE PRICED *
@@ -630,12 +636,12 @@ int main(int, char* []) {
                                Period(fixedLegFrequency),
                                calendar, fixedLegConvention,
                                fixedLegConvention,
-                               DateGeneration::Forward, false);
+                               DateGeneration::Backward, true);
         Schedule floatSchedule(startdate, endtdate,
                                Period(floatingLegFrequency),
                                calendar, floatingLegConvention,
                                floatingLegConvention,
-                               DateGeneration::Forward, false);
+                               DateGeneration::Backward, true);
 
 		// swap creation
         VanillaSwap Swap1(swapType, nominal,
@@ -723,16 +729,16 @@ int main(int, char* []) {
         Spread spread2 = 0.0;
 
         //schedule definition
-        Schedule fixedSchedule2(startdate, endtdate,
-            Period(fixedLegFrequency),
-            calendar, fixedLegConvention,
-            fixedLegConvention,
-            DateGeneration::Forward, false);
-        Schedule floatSchedule2(startdate, endtdate,
-            Period(floatingLegFrequency),
-            calendar, floatingLegConvention,
-            floatingLegConvention,
-            DateGeneration::Forward, false);
+        Schedule fixedSchedule2(startdate2, endtdate2,
+            Period(fixedLegFrequency2),
+            calendar, fixedLegConvention2,
+            fixedLegConvention2,
+            DateGeneration::Backward, true);
+        Schedule floatSchedule2(startdate2, endtdate2,
+            Period(floatingLegFrequency2),
+            calendar, floatingLegConvention2,
+            floatingLegConvention2,
+            DateGeneration::Backward, true);
 
         // swap creation
         VanillaSwap Swap2(swapType2, nominal2,
