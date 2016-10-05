@@ -78,7 +78,7 @@ int main(int, char* []) {
         *********************/
 
         Calendar calendar = UnitedKingdom(UnitedKingdom::Exchange);
-        Date settlementDate(04, October, 2016);
+        Date settlementDate(05, October, 2016);
         // must be a business day
         settlementDate = calendar.adjust(settlementDate);
 
@@ -97,71 +97,71 @@ int main(int, char* []) {
 
         // ON Instruments
         // deposits
-        Rate donQuote = 0.0;
+        Rate donQuote = 0.002281;
         //OIS
-        Rate oisSWQuote = 0.0;
-        Rate ois2WQuote = 0.0;
-        Rate ois1MQuote = 0.0;
-        Rate ois2MQuote = 0.0;
-        Rate ois3MQuote = 0.0;
-        Rate ois4MQuote = 0.0;
-        Rate ois5MQuote = 0.0;
-        Rate ois6MQuote = 0.0;
-        Rate ois7MQuote = 0.0;
-        Rate ois8MQuote = 0.0;
-        Rate ois9MQuote = 0.0;
-        Rate ois10MQuote = 0.0;
-        Rate ois11MQuote = 0.0;
-        Rate ois1yQuote = 0.0;
-        Rate ois2yQuote = 0.0;
-        Rate ois3yQuote = 0.0;
-        Rate ois4yQuote = 0.0;
-        Rate ois5yQuote = 0.0;
-        Rate ois6yQuote = 0.0;
-        Rate ois7yQuote = 0.0;
-        Rate ois8yQuote = 0.0;
-        Rate ois9yQuote = 0.0;
-        Rate ois10yQuote = 0.0;
-        Rate ois12yQuote = 0.0;
-        Rate ois15yQuote = 0.0;
-        Rate ois20yQuote = 0.0;
-        Rate ois25yQuote = 0.0;
-        Rate ois30yQuote = 0.0;
-        Rate ois40yQuote = 0.0;
-        Rate ois50yQuote = 0.0;
-        Rate ois60yQuote = 0.0;
+        Rate oisSwQuote = 0.00214;
+        Rate ois2wQuote = 0.00214;
+        Rate ois1mQuote = 0.0021;
+        Rate ois2mQuote = 0.00199;
+        Rate ois3mQuote = 0.00187;
+        Rate ois4mQuote = 0.00183;
+        Rate ois5mQuote = 0.00175;
+        Rate ois6mQuote = 0.00168;
+        Rate ois7mQuote = 0.00163;
+        Rate ois8mQuote = 0.00158;
+        Rate ois9mQuote = 0.00154;
+        Rate ois10mQuote = 0.00149;
+        Rate ois11mQuote = 0.00146;
+        Rate ois1yQuote = 0.00142;
+        Rate ois2yQuote = 0.00123;
+        Rate ois3yQuote = 0.00135;
+        Rate ois4yQuote = 0.00171;
+        Rate ois5yQuote = 0.00218;
+        Rate ois6yQuote = 0.00268;
+        Rate ois7yQuote = 0.0033;
+        Rate ois8yQuote = 0.00397;
+        Rate ois9yQuote = 0.00467;
+        Rate ois10yQuote = 0.00533;
+        Rate ois12yQuote = 0.00644;
+        Rate ois15yQuote = 0.00758;
+        Rate ois20yQuote = 0.00846;
+        Rate ois25yQuote = 0.00869;
+        Rate ois30yQuote = 0.00875;
+        Rate ois40yQuote = 0.00835;
+        Rate ois50yQuote = 0.0081;
+        Rate ois60yQuote = 0.00812;
 
         // 3 Months Libor Instruments
         // synth deposits
-        Rate d1mQuote = 0.0;
-        Rate d2mQuote = 0.0;
-        Rate d3mQuote = 0.0;
+        Rate d1mQuote = 0.004194;
+        Rate d2mQuote = 0.004016;
+        Rate d3mQuote = 0.003849;
         // futures
-        Real fut1Quote = 100;
-        Real fut2Quote = 100;
-        Real fut3Quote = 100;
-        Real fut4Quote = 100;
-        Real fut5Quote = 100;
-        Real fut6Quote = 100;
-        Real fut7Quote = 100;
-        Real fut8Quote = 100;
+        Real fut1Quote = 99.6525;
+        Real fut2Quote = 99.685;
+        Real fut3Quote = 99.705;
+        Real fut4Quote = 99.715;
+        Real fut5Quote = 99.72;
+        Real fut6Quote = 99.715;
+        Real fut7Quote = 99.705;
+        Real fut8Quote = 99.695;
         // swaps
-        Rate s3yQuote = 0.0;
-        Rate s4yQuote = 0.0;
-        Rate s5yQuote = 0.0;
-        Rate s6yQuote = 0.0;
-        Rate s7yQuote = 0.0;
-        Rate s8yQuote = 0.0;
-        Rate s9yQuote = 0.0;
-        Rate s10yQuote = 0.0;
-        Rate s12yQuote = 0.0;
-        Rate s15yQuote = 0.0;
-        Rate s20yQuote = 0.0;
-        Rate s25yQuote = 0.0;
-        Rate s30yQuote = 0.0;
-        Rate s40yQuote = 0.0;
-        Rate s50yQuote = 0.0;
-        Rate s60yQuote = 0.0;
+        Rate s3yQuote = 0.00322;
+        Rate s4yQuote = 0.0036;
+        Rate s5yQuote = 0.00411;
+        Rate s6yQuote = 0.00467;
+        Rate s7yQuote = 0.00529;
+        Rate s8yQuote = 0.00595;
+        Rate s9yQuote = 0.00662;
+        Rate s10yQuote = 0.00726;
+        Rate s12yQuote = 0.00831;
+        Rate s15yQuote = 0.00936;
+        Rate s20yQuote = 0.01014;
+        Rate s25yQuote = 0.01029;
+        Rate s30yQuote = 0.01028;
+        Rate s40yQuote = 0.00978;
+        Rate s50yQuote = 0.00946;
+        Rate s60yQuote = 0.00942;
 
 
         /********************
@@ -176,19 +176,19 @@ int main(int, char* []) {
         // deposits
         boost::shared_ptr<Quote> donRate(new SimpleQuote(donQuote));
         //OIS
-        boost::shared_ptr<Quote> oisSwRate(new SimpleQuote(oisSWQuote));
-        boost::shared_ptr<Quote> ois2wRate(new SimpleQuote(ois2WQuote));
-        boost::shared_ptr<Quote> ois1mRate(new SimpleQuote(ois1MQuote));
-        boost::shared_ptr<Quote> ois2mRate(new SimpleQuote(ois2MQuote));
-        boost::shared_ptr<Quote> ois3mRate(new SimpleQuote(ois3MQuote));
-        boost::shared_ptr<Quote> ois4mRate(new SimpleQuote(ois4MQuote));
-        boost::shared_ptr<Quote> ois5mRate(new SimpleQuote(ois5MQuote));
-        boost::shared_ptr<Quote> ois6mRate(new SimpleQuote(ois6MQuote));
-        boost::shared_ptr<Quote> ois7mRate(new SimpleQuote(ois7MQuote));
-        boost::shared_ptr<Quote> ois8mRate(new SimpleQuote(ois8MQuote));
-        boost::shared_ptr<Quote> ois9mRate(new SimpleQuote(ois9MQuote));
-        boost::shared_ptr<Quote> ois10mRate(new SimpleQuote(ois10MQuote));
-        boost::shared_ptr<Quote> ois11mRate(new SimpleQuote(ois11MQuote));
+        boost::shared_ptr<Quote> oisSwRate(new SimpleQuote(oisSwQuote));
+        boost::shared_ptr<Quote> ois2wRate(new SimpleQuote(ois2wQuote));
+        boost::shared_ptr<Quote> ois1mRate(new SimpleQuote(ois1mQuote));
+        boost::shared_ptr<Quote> ois2mRate(new SimpleQuote(ois2mQuote));
+        boost::shared_ptr<Quote> ois3mRate(new SimpleQuote(ois3mQuote));
+        boost::shared_ptr<Quote> ois4mRate(new SimpleQuote(ois4mQuote));
+        boost::shared_ptr<Quote> ois5mRate(new SimpleQuote(ois5mQuote));
+        boost::shared_ptr<Quote> ois6mRate(new SimpleQuote(ois6mQuote));
+        boost::shared_ptr<Quote> ois7mRate(new SimpleQuote(ois7mQuote));
+        boost::shared_ptr<Quote> ois8mRate(new SimpleQuote(ois8mQuote));
+        boost::shared_ptr<Quote> ois9mRate(new SimpleQuote(ois9mQuote));
+        boost::shared_ptr<Quote> ois10mRate(new SimpleQuote(ois10mQuote));
+        boost::shared_ptr<Quote> ois11mRate(new SimpleQuote(ois11mQuote));
         boost::shared_ptr<Quote> ois1yRate(new SimpleQuote(ois1yQuote));
         boost::shared_ptr<Quote> ois2yRate(new SimpleQuote(ois2yQuote));
         boost::shared_ptr<Quote> ois3yRate(new SimpleQuote(ois3yQuote));
@@ -242,8 +242,8 @@ int main(int, char* []) {
 
 
         /************************
-            *** OIS RATE HELPERS ***
-            ************************/
+        *** OIS RATE HELPERS ***
+        ************************/
 
         // RateHelpers are built from the above quotes together with
         // other instrument dependant infos.  Quotes are passed in
@@ -600,7 +600,7 @@ int main(int, char* []) {
         * ADD Histo Fix *
         **********************/
         Date fixdate(30, September, 2016);
-        Rate fix = 0.0;
+        Rate fix = 0.0038275;
         Libor3MIndex->addFixing(fixdate, fix);
 
         /*********************
@@ -759,7 +759,7 @@ int main(int, char* []) {
         ********************/
 
         // swap 2
-        std::cout << tab << "swap 1 paying "
+        std::cout << tab << "swap 2 paying "
             << io::rate(fixedRate2) << std::endl;
         std::cout << headers[0] << separator
             << headers[1] << separator
