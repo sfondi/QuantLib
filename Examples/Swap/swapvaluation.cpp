@@ -176,7 +176,6 @@ int main(int, char* []) {
 		// deposits
 		boost::shared_ptr<Quote> donRate(new SimpleQuote(donQuote));
         //OIS
-		Rate oisSWQuote = 0.0;
 		boost::shared_ptr<Quote> oisSwRate(new SimpleQuote(oisSWQuote));
         boost::shared_ptr<Quote> ois2wRate(new SimpleQuote(ois2WQuote));
         boost::shared_ptr<Quote> ois1mRate(new SimpleQuote(ois1MQuote));
@@ -318,16 +317,16 @@ int main(int, char* []) {
 		boost::shared_ptr<RateHelper> o60y(new OISRateHelper(
 			0, 3 * Years, Handle<Quote>(ois60yRate), overnightLegIndex));
 
+        // Any DayCounter would be fine.
+        // ActualActual::ISDA ensures that 30 years is 30.0
+        DayCounter termStructureDayCounter =
+        ActualActual(ActualActual::ISDA);
+        
+        double tolerance = 1.0e-15;
+        
 		/********************************
 		**  DISCOUNTING CURVE BUILDING **
 		*********************************/
-
-		// Any DayCounter would be fine.
-		// ActualActual::ISDA ensures that 30 years is 30.0
-		DayCounter termStructureDayCounter =
-			ActualActual(ActualActual::ISDA);
-
-		double tolerance = 1.0e-15;
 		
 		// OIS CURVE INSTRUMENTS
 		std::vector<boost::shared_ptr<RateHelper> > OisCurveInstruments;
@@ -555,14 +554,6 @@ int main(int, char* []) {
          **  LIBOR CURVE BUILDING **
          ***************************/
 
-        // Any DayCounter would be fine.
-        // ActualActual::ISDA ensures that 30 years is 30.0
-        DayCounter termStructureDayCounter =
-            ActualActual(ActualActual::ISDA);
-
-
-        double tolerance = 1.0e-15;
-
         // 3M Libor
         std::vector<boost::shared_ptr<RateHelper> > Libor3mCurveInstruments;
         Libor3mCurveInstruments.push_back(d1m);
@@ -646,13 +637,14 @@ int main(int, char* []) {
             floatSchedule, Libor3MIndex, spread,
             floatingLegDayCounter);
 
+        
+        //pricing engine for the swap
+        boost::shared_ptr<PricingEngine> swapEngine(
+          new DiscountingSwapEngine(discountingTermStructure));
+        
 		/***************
         * SWAP 1 PRICING *
         ****************/
-		
-		//pricing engine for the swap
-		boost::shared_ptr<PricingEngine> swapEngine(
-			new DiscountingSwapEngine(discountingTermStructure));
 
 		Swap1.setPricingEngine(swapEngine);
 
@@ -692,7 +684,7 @@ int main(int, char* []) {
         std::cout << rule << std::endl;
 
         std::cout << std::setw(headers[0].size())
-                  << "depo-swap" << separator;
+                  << "ois-discounting" << separator;
         std::cout << std::setw(headers[1].size())
                   << std::fixed << std::setprecision(2) << NPV << separator;
         std::cout << std::setw(headers[2].size())
@@ -707,83 +699,62 @@ int main(int, char* []) {
 		**********************/
 
 		// constant nominal 10000,000 GBP
-		Real nominal = 10000000.0;
-		VanillaSwap::Type swapType = VanillaSwap::Payer;
-		Date startdate(04, January, 2013);
-		Date endtdate(31, January, 2017);
+		Real nominal2 = 10000000.0;
+		VanillaSwap::Type swapType2 = VanillaSwap::Payer;
+		Date startdate2(04, January, 2013);
+		Date endtdate2(31, January, 2017);
 
 		// fixed leg (Party B)
-		Frequency fixedLegFrequency = Quarterly;
-		BusinessDayConvention fixedLegConvention = ModifiedFollowing;
-		DayCounter fixedLegDayCounter = Actual365Fixed();
-		Rate fixedRate = 0.00993;
+		Frequency fixedLegFrequency2 = Quarterly;
+		BusinessDayConvention fixedLegConvention2 = ModifiedFollowing;
+		DayCounter fixedLegDayCounter2 = Actual365Fixed();
+		Rate fixedRate2 = 0.00993;
 
 		// floating leg (Party A)
-		Frequency floatingLegFrequency = Quarterly;
-		BusinessDayConvention floatingLegConvention = ModifiedFollowing;
-		DayCounter floatingLegDayCounter = Actual365Fixed();
-		Spread spread = 0.0;
-
-		boost::shared_ptr<IborIndex> Libor3MIndex(
-			new GBPLibor(3 * Months, forecastingTermStructure));
+		Frequency floatingLegFrequency2 = Quarterly;
+		BusinessDayConvention floatingLegConvention2 = ModifiedFollowing;
+		DayCounter floatingLegDayCounter2 = Actual365Fixed();
+		Spread spread2 = 0.0;
 
 		//schedule definition
-		Schedule fixedSchedule(startdate, endtdate,
+		Schedule fixedSchedule2(startdate, endtdate,
 			Period(fixedLegFrequency),
 			calendar, fixedLegConvention,
 			fixedLegConvention,
 			DateGeneration::Forward, false);
-		Schedule floatSchedule(startdate, endtdate,
+		Schedule floatSchedule2(startdate, endtdate,
 			Period(floatingLegFrequency),
 			calendar, floatingLegConvention,
 			floatingLegConvention,
 			DateGeneration::Forward, false);
 
 		// swap creation
-		VanillaSwap Swap2(swapType, nominal,
-			fixedSchedule, fixedRate, fixedLegDayCounter,
-			floatSchedule, Libor3MIndex, spread,
-			floatingLegDayCounter);
+		VanillaSwap Swap2(swapType2, nominal2,
+			fixedSchedule2, fixedRate2, fixedLegDayCounter2,
+			floatSchedule2, Libor3MIndex, spread2,
+			floatingLegDayCounter2);
 
 		/***************
 		* SWAP 2 PRICING *
 		****************/
 
-		//pricing engine for the swap
-		boost::shared_ptr<PricingEngine> swapEngine(
-			new DiscountingSwapEngine(discountingTermStructure));
-
 		Swap1.setPricingEngine(swapEngine);
 
-		Real NPV;
-		Rate fairRate;
-		Spread fairSpread;
+		Real NPV2;
+		Rate fairRate2;
+		Spread fairSpread2;
 
-		NPV = Swap2.NPV();
-		fairSpread = Swap2.fairSpread();
-		fairRate = Swap2.fairRate();
+		NPV2 = Swap2.NPV();
+		fairSpread2 = Swap2.fairSpread();
+		fairRate2 = Swap2.fairRate();
 
 		/*******************
 		* SWAP 2 REPORTING *
 		********************/
 
-		// utilities for reporting
-		std::vector<std::string> headers(4);
-		headers[0] = "term structure";
-		headers[1] = "net present value";
-		headers[2] = "fair spread";
-		headers[3] = "fair fixed rate";
-		std::string separator = " | ";
-		Size width = headers[0].size() + separator.size()
-			+ headers[1].size() + separator.size()
-			+ headers[2].size() + separator.size()
-			+ headers[3].size() + separator.size() - 1;
-		std::string rule(width, '-'), dblrule(width, '=');
-		std::string tab(8, ' ');
-
 		// swap 2
 		std::cout << tab << "swap 1 paying "
-			<< io::rate(fixedRate) << std::endl;
+			<< io::rate(fixedRate2) << std::endl;
 		std::cout << headers[0] << separator
 			<< headers[1] << separator
 			<< headers[2] << separator
@@ -791,13 +762,13 @@ int main(int, char* []) {
 		std::cout << rule << std::endl;
 
 		std::cout << std::setw(headers[0].size())
-			<< "depo-swap" << separator;
+			<< "ois-discounting" << separator;
 		std::cout << std::setw(headers[1].size())
-			<< std::fixed << std::setprecision(2) << NPV << separator;
+			<< std::fixed << std::setprecision(2) << NPV2 << separator;
 		std::cout << std::setw(headers[2].size())
-			<< io::rate(fairSpread) << separator;
+			<< io::rate(fairSpread2) << separator;
 		std::cout << std::setw(headers[3].size())
-			<< io::rate(fairRate) << separator;
+			<< io::rate(fairRate2) << separator;
 		std::cout << std::endl;
 		std::cout << rule << std::endl;
 
