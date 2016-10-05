@@ -74,8 +74,8 @@ int main(int, char* []) {
         std::cout << std::endl;
 
         /*********************
-            ***  MARKET DATA  ***
-            *********************/
+        ***  MARKET DATA  ***
+        *********************/
 
         Calendar calendar = UnitedKingdom(UnitedKingdom::Exchange);
         Date settlementDate(04, October, 2016);
@@ -122,14 +122,14 @@ int main(int, char* []) {
         Rate ois8yQuote = 0.0;
         Rate ois9yQuote = 0.0;
         Rate ois10yQuote = 0.0;
-		Rate ois12yQuote = 0.0;
-		Rate ois15yQuote = 0.0;
-		Rate ois20yQuote = 0.0;
-		Rate ois25yQuote = 0.0;
-		Rate ois30yQuote = 0.0;
-		Rate ois40yQuote = 0.0;
-		Rate ois50yQuote = 0.0;
-		Rate ois60yQuote = 0.0;
+        Rate ois12yQuote = 0.0;
+        Rate ois15yQuote = 0.0;
+        Rate ois20yQuote = 0.0;
+        Rate ois25yQuote = 0.0;
+        Rate ois30yQuote = 0.0;
+        Rate ois40yQuote = 0.0;
+        Rate ois50yQuote = 0.0;
+        Rate ois60yQuote = 0.0;
 
         // 3 Months Libor Instruments
         // synth deposits
@@ -154,29 +154,29 @@ int main(int, char* []) {
         Rate s8yQuote = 0.0;
         Rate s9yQuote = 0.0;
         Rate s10yQuote = 0.0;
-		Rate s12yQuote = 0.0;
-		Rate s15yQuote = 0.0;
-		Rate s20yQuote = 0.0;
-		Rate s25yQuote = 0.0;
-		Rate s30yQuote = 0.0;
-		Rate s40yQuote = 0.0;
-		Rate s50yQuote = 0.0;
-		Rate s60yQuote = 0.0;
+        Rate s12yQuote = 0.0;
+        Rate s15yQuote = 0.0;
+        Rate s20yQuote = 0.0;
+        Rate s25yQuote = 0.0;
+        Rate s30yQuote = 0.0;
+        Rate s40yQuote = 0.0;
+        Rate s50yQuote = 0.0;
+        Rate s60yQuote = 0.0;
 
 
         /********************
-            ***    QUOTES    ***
-            ********************/
+        ***    QUOTES    ***
+        ********************/
 
         // SimpleQuote stores a value which can be manually changed;
         // other Quote subclasses could read the value from a database
         // or some kind of data feed.
 
-		// ON Instruments
-		// deposits
-		boost::shared_ptr<Quote> donRate(new SimpleQuote(donQuote));
+        // ON Instruments
+        // deposits
+        boost::shared_ptr<Quote> donRate(new SimpleQuote(donQuote));
         //OIS
-		boost::shared_ptr<Quote> oisSwRate(new SimpleQuote(oisSWQuote));
+        boost::shared_ptr<Quote> oisSwRate(new SimpleQuote(oisSWQuote));
         boost::shared_ptr<Quote> ois2wRate(new SimpleQuote(ois2WQuote));
         boost::shared_ptr<Quote> ois1mRate(new SimpleQuote(ois1MQuote));
         boost::shared_ptr<Quote> ois2mRate(new SimpleQuote(ois2MQuote));
@@ -199,19 +199,19 @@ int main(int, char* []) {
         boost::shared_ptr<Quote> ois8yRate(new SimpleQuote(ois8yQuote));
         boost::shared_ptr<Quote> ois9yRate(new SimpleQuote(ois9yQuote));
         boost::shared_ptr<Quote> ois10yRate(new SimpleQuote(ois10yQuote));
-		boost::shared_ptr<Quote> ois12yRate(new SimpleQuote(ois12yQuote));
-		boost::shared_ptr<Quote> ois15yRate(new SimpleQuote(ois15yQuote));
-		boost::shared_ptr<Quote> ois20yRate(new SimpleQuote(ois20yQuote));
-		boost::shared_ptr<Quote> ois25yRate(new SimpleQuote(ois25yQuote));
-		boost::shared_ptr<Quote> ois30yRate(new SimpleQuote(ois30yQuote));
-		boost::shared_ptr<Quote> ois40yRate(new SimpleQuote(ois40yQuote));
-		boost::shared_ptr<Quote> ois50yRate(new SimpleQuote(ois50yQuote));
-		boost::shared_ptr<Quote> ois60yRate(new SimpleQuote(ois60yQuote));
+        boost::shared_ptr<Quote> ois12yRate(new SimpleQuote(ois12yQuote));
+        boost::shared_ptr<Quote> ois15yRate(new SimpleQuote(ois15yQuote));
+        boost::shared_ptr<Quote> ois20yRate(new SimpleQuote(ois20yQuote));
+        boost::shared_ptr<Quote> ois25yRate(new SimpleQuote(ois25yQuote));
+        boost::shared_ptr<Quote> ois30yRate(new SimpleQuote(ois30yQuote));
+        boost::shared_ptr<Quote> ois40yRate(new SimpleQuote(ois40yQuote));
+        boost::shared_ptr<Quote> ois50yRate(new SimpleQuote(ois50yQuote));
+        boost::shared_ptr<Quote> ois60yRate(new SimpleQuote(ois60yQuote));
 
-		// 3 Months Libor Instruments
-		// synth deposits
+        // 3 Months Libor Instruments
+        // synth deposits
         boost::shared_ptr<Quote> d1mRate(new SimpleQuote(d1mQuote));
-		boost::shared_ptr<Quote> d2mRate(new SimpleQuote(d2mQuote));
+        boost::shared_ptr<Quote> d2mRate(new SimpleQuote(d2mQuote));
         boost::shared_ptr<Quote> d3mRate(new SimpleQuote(d3mQuote));
         // futures
         boost::shared_ptr<Quote> fut1Price(new SimpleQuote(fut1Quote));
@@ -224,98 +224,98 @@ int main(int, char* []) {
         boost::shared_ptr<Quote> fut8Price(new SimpleQuote(fut8Quote));
         // swaps
         boost::shared_ptr<Quote> s3yRate(new SimpleQuote(s3yQuote));
-		boost::shared_ptr<Quote> s4yRate(new SimpleQuote(s4yQuote));
+        boost::shared_ptr<Quote> s4yRate(new SimpleQuote(s4yQuote));
         boost::shared_ptr<Quote> s5yRate(new SimpleQuote(s5yQuote));
-		boost::shared_ptr<Quote> s6yRate(new SimpleQuote(s6yQuote));
-		boost::shared_ptr<Quote> s7yRate(new SimpleQuote(s7yQuote));
-		boost::shared_ptr<Quote> s8yRate(new SimpleQuote(s8yQuote));
-		boost::shared_ptr<Quote> s9yRate(new SimpleQuote(s9yQuote));
+        boost::shared_ptr<Quote> s6yRate(new SimpleQuote(s6yQuote));
+        boost::shared_ptr<Quote> s7yRate(new SimpleQuote(s7yQuote));
+        boost::shared_ptr<Quote> s8yRate(new SimpleQuote(s8yQuote));
+        boost::shared_ptr<Quote> s9yRate(new SimpleQuote(s9yQuote));
         boost::shared_ptr<Quote> s10yRate(new SimpleQuote(s10yQuote));
-		boost::shared_ptr<Quote> s12yRate(new SimpleQuote(s12yQuote));
-		boost::shared_ptr<Quote> s15yRate(new SimpleQuote(s15yQuote));
-		boost::shared_ptr<Quote> s20yRate(new SimpleQuote(s20yQuote));
-		boost::shared_ptr<Quote> s25yRate(new SimpleQuote(s25yQuote));
-		boost::shared_ptr<Quote> s30yRate(new SimpleQuote(s30yQuote));
-		boost::shared_ptr<Quote> s40yRate(new SimpleQuote(s40yQuote));
-		boost::shared_ptr<Quote> s50yRate(new SimpleQuote(s50yQuote));
-		boost::shared_ptr<Quote> s60yRate(new SimpleQuote(s60yQuote));
+        boost::shared_ptr<Quote> s12yRate(new SimpleQuote(s12yQuote));
+        boost::shared_ptr<Quote> s15yRate(new SimpleQuote(s15yQuote));
+        boost::shared_ptr<Quote> s20yRate(new SimpleQuote(s20yQuote));
+        boost::shared_ptr<Quote> s25yRate(new SimpleQuote(s25yQuote));
+        boost::shared_ptr<Quote> s30yRate(new SimpleQuote(s30yQuote));
+        boost::shared_ptr<Quote> s40yRate(new SimpleQuote(s40yQuote));
+        boost::shared_ptr<Quote> s50yRate(new SimpleQuote(s50yQuote));
+        boost::shared_ptr<Quote> s60yRate(new SimpleQuote(s60yQuote));
 
 
         /************************
-         *** OIS RATE HELPERS ***
-         ************************/
+            *** OIS RATE HELPERS ***
+            ************************/
 
         // RateHelpers are built from the above quotes together with
         // other instrument dependant infos.  Quotes are passed in
         // relinkable handles which could be relinked to some other
         // data source later.
 
-		// ois
+        // ois
 
-		boost::shared_ptr<OvernightIndex> overnightLegIndex(new Sonia());
+        boost::shared_ptr<OvernightIndex> overnightLegIndex(new Sonia());
 
-		boost::shared_ptr<RateHelper> oSw(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(oisSwRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o2w(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois2wRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o1m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois1mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o2m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois2mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o3m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois3mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o4m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois4mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o5m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois5mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o6m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois6mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o7m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois7mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o8m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois8mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o9m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois9mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o10m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois10mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o11m(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois11mRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o1y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois1yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o2y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois2yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o3y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois3yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o4y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois4yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o5y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois5yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o6y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois6yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o7y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois7yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o8y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois8yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o9y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois9yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o10y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois10yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o12y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois12yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o15y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois15yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o20y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois20yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o25y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois25yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o30y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois30yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o40y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois40yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o50y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois50yRate), overnightLegIndex));
-		boost::shared_ptr<RateHelper> o60y(new OISRateHelper(
-			0, 3 * Years, Handle<Quote>(ois60yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> oSw(new OISRateHelper(
+            0, 1 * Weeks, Handle<Quote>(oisSwRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o2w(new OISRateHelper(
+            0, 2 * Weeks, Handle<Quote>(ois2wRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o1m(new OISRateHelper(
+            0, 1 * Months, Handle<Quote>(ois1mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o2m(new OISRateHelper(
+            0, 2 * Months, Handle<Quote>(ois2mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o3m(new OISRateHelper(
+            0, 3 * Months, Handle<Quote>(ois3mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o4m(new OISRateHelper(
+            0, 4 * Months, Handle<Quote>(ois4mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o5m(new OISRateHelper(
+            0, 5 * Months, Handle<Quote>(ois5mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o6m(new OISRateHelper(
+            0, 6 * Months, Handle<Quote>(ois6mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o7m(new OISRateHelper(
+            0, 7 * Months, Handle<Quote>(ois7mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o8m(new OISRateHelper(
+            0, 8 * Months, Handle<Quote>(ois8mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o9m(new OISRateHelper(
+            0, 9 * Months, Handle<Quote>(ois9mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o10m(new OISRateHelper(
+            0, 10 * Months, Handle<Quote>(ois10mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o11m(new OISRateHelper(
+            0, 11 * Months, Handle<Quote>(ois11mRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o1y(new OISRateHelper(
+            0, 1 * Years, Handle<Quote>(ois1yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o2y(new OISRateHelper(
+            0, 2 * Years, Handle<Quote>(ois2yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o3y(new OISRateHelper(
+            0, 3 * Years, Handle<Quote>(ois3yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o4y(new OISRateHelper(
+            0, 4 * Years, Handle<Quote>(ois4yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o5y(new OISRateHelper(
+            0, 5 * Years, Handle<Quote>(ois5yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o6y(new OISRateHelper(
+            0, 6 * Years, Handle<Quote>(ois6yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o7y(new OISRateHelper(
+            0, 7 * Years, Handle<Quote>(ois7yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o8y(new OISRateHelper(
+            0, 8 * Years, Handle<Quote>(ois8yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o9y(new OISRateHelper(
+            0, 9 * Years, Handle<Quote>(ois9yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o10y(new OISRateHelper(
+            0, 10 * Years, Handle<Quote>(ois10yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o12y(new OISRateHelper(
+            0, 12 * Years, Handle<Quote>(ois12yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o15y(new OISRateHelper(
+            0, 15 * Years, Handle<Quote>(ois15yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o20y(new OISRateHelper(
+            0, 20 * Years, Handle<Quote>(ois20yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o25y(new OISRateHelper(
+            0, 25 * Years, Handle<Quote>(ois25yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o30y(new OISRateHelper(
+            0, 30 * Years, Handle<Quote>(ois30yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o40y(new OISRateHelper(
+            0, 40 * Years, Handle<Quote>(ois40yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o50y(new OISRateHelper(
+            0, 50 * Years, Handle<Quote>(ois50yRate), overnightLegIndex));
+        boost::shared_ptr<RateHelper> o60y(new OISRateHelper(
+            0, 60 * Years, Handle<Quote>(ois60yRate), overnightLegIndex));
 
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0
@@ -324,62 +324,62 @@ int main(int, char* []) {
         
         double tolerance = 1.0e-15;
         
-		/********************************
-		**  DISCOUNTING CURVE BUILDING **
-		*********************************/
+        /********************************
+        **  DISCOUNTING CURVE BUILDING **
+        *********************************/
 		
-		// OIS CURVE INSTRUMENTS
-		std::vector<boost::shared_ptr<RateHelper> > OisCurveInstruments;
-		OisCurveInstruments.push_back(oSw);
-		OisCurveInstruments.push_back(o2w);
-		OisCurveInstruments.push_back(o1m);
-		OisCurveInstruments.push_back(o2m);
-		OisCurveInstruments.push_back(o3m);
-		OisCurveInstruments.push_back(o4m);
-		OisCurveInstruments.push_back(o5m);
-		OisCurveInstruments.push_back(o6m);
-		OisCurveInstruments.push_back(o7m);
-		OisCurveInstruments.push_back(o8m);
-		OisCurveInstruments.push_back(o9m);
-		OisCurveInstruments.push_back(o10m);
-		OisCurveInstruments.push_back(o11m);
-		OisCurveInstruments.push_back(o1y);
-		OisCurveInstruments.push_back(o2y);
-		OisCurveInstruments.push_back(o3y);
-		OisCurveInstruments.push_back(o4y);
-		OisCurveInstruments.push_back(o5y);
-		OisCurveInstruments.push_back(o6y);
-		OisCurveInstruments.push_back(o7y);
-		OisCurveInstruments.push_back(o8y);
-		OisCurveInstruments.push_back(o9y);
-		OisCurveInstruments.push_back(o10y);
-		OisCurveInstruments.push_back(o12y);
-		OisCurveInstruments.push_back(o15y);
-		OisCurveInstruments.push_back(o20y);
-		OisCurveInstruments.push_back(o25y);
-		OisCurveInstruments.push_back(o30y);
-		OisCurveInstruments.push_back(o40y);
-		OisCurveInstruments.push_back(o50y);
-		OisCurveInstruments.push_back(o60y);
+        // OIS CURVE INSTRUMENTS
+        std::vector<boost::shared_ptr<RateHelper> > OisCurveInstruments;
+        OisCurveInstruments.push_back(oSw);
+        OisCurveInstruments.push_back(o2w);
+        OisCurveInstruments.push_back(o1m);
+        OisCurveInstruments.push_back(o2m);
+        OisCurveInstruments.push_back(o3m);
+        OisCurveInstruments.push_back(o4m);
+        OisCurveInstruments.push_back(o5m);
+        OisCurveInstruments.push_back(o6m);
+        OisCurveInstruments.push_back(o7m);
+        OisCurveInstruments.push_back(o8m);
+        OisCurveInstruments.push_back(o9m);
+        OisCurveInstruments.push_back(o10m);
+        OisCurveInstruments.push_back(o11m);
+        OisCurveInstruments.push_back(o1y);
+        OisCurveInstruments.push_back(o2y);
+        OisCurveInstruments.push_back(o3y);
+        OisCurveInstruments.push_back(o4y);
+        OisCurveInstruments.push_back(o5y);
+        OisCurveInstruments.push_back(o6y);
+        OisCurveInstruments.push_back(o7y);
+        OisCurveInstruments.push_back(o8y);
+        OisCurveInstruments.push_back(o9y);
+        OisCurveInstruments.push_back(o10y);
+        OisCurveInstruments.push_back(o12y);
+        OisCurveInstruments.push_back(o15y);
+        OisCurveInstruments.push_back(o20y);
+        OisCurveInstruments.push_back(o25y);
+        OisCurveInstruments.push_back(o30y);
+        OisCurveInstruments.push_back(o40y);
+        OisCurveInstruments.push_back(o50y);
+        OisCurveInstruments.push_back(o60y);
 
-		boost::shared_ptr<YieldTermStructure> OisCurve(
-			new PiecewiseYieldCurve<Discount, LogLinear>(
-			settlementDate, OisCurveInstruments,
-			termStructureDayCounter,
-			tolerance));
+        boost::shared_ptr<YieldTermStructure> OisCurve(
+                new PiecewiseYieldCurve<Discount, LogLinear>(
+                settlementDate, OisCurveInstruments,
+                termStructureDayCounter,
+                tolerance));
 
-		// Term structures that will be used for discounting cash flows
-		RelinkableHandle<YieldTermStructure> discountingTermStructure;
-		discountingTermStructure.linkTo(OisCurve);
+        // Term structures that will be used for discounting cash flows
+        RelinkableHandle<YieldTermStructure> discountingTermStructure;
+        discountingTermStructure.linkTo(OisCurve);
 
-		/*************************
-		*** LIBOR RATE HELPERS ***
-		**************************/
+        /*************************
+        *** LIBOR RATE HELPERS ***
+        **************************/
 
-		// RateHelpers are built from the above quotes together with
-		// other instrument dependant infos.  Quotes are passed in
-		// relinkable handles which could be relinked to some other
-		// data source later.
+        // RateHelpers are built from the above quotes together with
+        // other instrument dependant infos.  Quotes are passed in
+        // relinkable handles which could be relinked to some other
+        // data source later.
 
         // deposits
         DayCounter depositDayCounter = Actual365Fixed();
@@ -498,56 +498,56 @@ int main(int, char* []) {
             Handle<Quote>(s10yRate), 10*Years,
             calendar, swFixedLegFrequency,
             swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s12y(new SwapRateHelper(
-			Handle<Quote>(s12yRate), 12 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s15y(new SwapRateHelper(
-			Handle<Quote>(s15yRate), 15 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s20y(new SwapRateHelper(
-			Handle<Quote>(s20yRate), 20 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s25y(new SwapRateHelper(
-			Handle<Quote>(s25yRate), 25 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s30y(new SwapRateHelper(
-			Handle<Quote>(s30yRate), 30 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s40y(new SwapRateHelper(
-			Handle<Quote>(s40yRate), 40 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s50y(new SwapRateHelper(
-			Handle<Quote>(s50yRate), 50 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
-		boost::shared_ptr<RateHelper> s60y(new SwapRateHelper(
-			Handle<Quote>(s60yRate), 60 * Years,
-			calendar, swFixedLegFrequency,
-			swFixedLegConvention, swFixedLegDayCounter,
-			swFloatingLegIndex, Handle<Quote>(), 0 * Days,
-			discountingTermStructure));
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s12y(new SwapRateHelper(
+            Handle<Quote>(s12yRate), 12 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s15y(new SwapRateHelper(
+            Handle<Quote>(s15yRate), 15 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s20y(new SwapRateHelper(
+            Handle<Quote>(s20yRate), 20 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s25y(new SwapRateHelper(
+            Handle<Quote>(s25yRate), 25 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s30y(new SwapRateHelper(
+            Handle<Quote>(s30yRate), 30 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s40y(new SwapRateHelper(
+	        Handle<Quote>(s40yRate), 40 * Years,
+	        calendar, swFixedLegFrequency,
+	        swFixedLegConvention, swFixedLegDayCounter,
+	        swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+	        discountingTermStructure));
+        boost::shared_ptr<RateHelper> s50y(new SwapRateHelper(
+            Handle<Quote>(s50yRate), 50 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
+        boost::shared_ptr<RateHelper> s60y(new SwapRateHelper(
+            Handle<Quote>(s60yRate), 60 * Years,
+            calendar, swFixedLegFrequency,
+            swFixedLegConvention, swFixedLegDayCounter,
+            swFloatingLegIndex, Handle<Quote>(), 0 * Days,
+            discountingTermStructure));
 
 
         /***************************
@@ -575,14 +575,14 @@ int main(int, char* []) {
         Libor3mCurveInstruments.push_back(s8y);
         Libor3mCurveInstruments.push_back(s9y);
         Libor3mCurveInstruments.push_back(s10y);
-		Libor3mCurveInstruments.push_back(s12y);
-		Libor3mCurveInstruments.push_back(s15y);
-		Libor3mCurveInstruments.push_back(s20y);
-		Libor3mCurveInstruments.push_back(s25y);
-		Libor3mCurveInstruments.push_back(s30y);
-		Libor3mCurveInstruments.push_back(s40y);
-		Libor3mCurveInstruments.push_back(s50y);
-		Libor3mCurveInstruments.push_back(s60y);
+        Libor3mCurveInstruments.push_back(s12y);
+        Libor3mCurveInstruments.push_back(s15y);
+        Libor3mCurveInstruments.push_back(s20y);
+        Libor3mCurveInstruments.push_back(s25y);
+        Libor3mCurveInstruments.push_back(s30y);
+        Libor3mCurveInstruments.push_back(s40y);
+        Libor3mCurveInstruments.push_back(s50y);
+        Libor3mCurveInstruments.push_back(s60y);
         boost::shared_ptr<YieldTermStructure> Libor3mCurve(
             new PiecewiseYieldCurve<Discount,LogLinear>(
                                           settlementDate, Libor3mCurveInstruments,
@@ -593,6 +593,15 @@ int main(int, char* []) {
         RelinkableHandle<YieldTermStructure> forecastingTermStructure;
 		forecastingTermStructure.linkTo(Libor3mCurve);
 
+        boost::shared_ptr<IborIndex> Libor3MIndex(
+            new GBPLibor(3 * Months, forecastingTermStructure));
+
+        /*********************
+        * ADD Histo Fix *
+        **********************/
+        Date fixdate(30, September, 2016);
+        Rate fix = 0.0;
+        Libor3MIndex->addFixing(fixdate, fix);
 
         /*********************
         * SWAP 1 TO BE PRICED *
@@ -600,24 +609,21 @@ int main(int, char* []) {
 
         // constant nominal 17,500,000 GBP
         Real nominal = 17500000.0;
-		VanillaSwap::Type swapType = VanillaSwap::Payer;
-		Date startdate(30, September, 2015);
-		Date endtdate(31, December, 2018);
+        VanillaSwap::Type swapType = VanillaSwap::Payer;
+        Date startdate(30, September, 2015);
+        Date endtdate(31, December, 2018);
 
         // fixed leg (Party B)
         Frequency fixedLegFrequency = Quarterly;
-		BusinessDayConvention fixedLegConvention = ModifiedFollowing;
-		DayCounter fixedLegDayCounter = Actual365Fixed();
-		Rate fixedRate = 0.02465;
+        BusinessDayConvention fixedLegConvention = ModifiedFollowing;
+        DayCounter fixedLegDayCounter = Actual365Fixed();
+        Rate fixedRate = 0.02465;
 
         // floating leg (Party A)
         Frequency floatingLegFrequency = Quarterly;
-		BusinessDayConvention floatingLegConvention = ModifiedFollowing;
-		DayCounter floatingLegDayCounter = Actual365Fixed();
-		Spread spread = 0.0;
-
-		boost::shared_ptr<IborIndex> Libor3MIndex(
-			new GBPLibor(3 * Months, forecastingTermStructure)); 
+        BusinessDayConvention floatingLegConvention = ModifiedFollowing;
+        DayCounter floatingLegDayCounter = Actual365Fixed();
+        Spread spread = 0.0;
 
         //schedule definition
         Schedule fixedSchedule(startdate, endtdate,
@@ -625,7 +631,7 @@ int main(int, char* []) {
                                calendar, fixedLegConvention,
                                fixedLegConvention,
                                DateGeneration::Forward, false);
-		Schedule floatSchedule(startdate, endtdate,
+        Schedule floatSchedule(startdate, endtdate,
                                Period(floatingLegFrequency),
                                calendar, floatingLegConvention,
                                floatingLegConvention,
@@ -646,19 +652,19 @@ int main(int, char* []) {
         * SWAP 1 PRICING *
         ****************/
 
-		Swap1.setPricingEngine(swapEngine);
+        Swap1.setPricingEngine(swapEngine);
 
-		Real NPV;
-		Rate fairRate;
-		Spread fairSpread;
+        Real NPV;
+        Rate fairRate;
+        Spread fairSpread;
 
-		NPV = Swap1.NPV();
-		fairSpread = Swap1.fairSpread();
-		fairRate = Swap1.fairRate();
+        NPV = Swap1.NPV();
+        fairSpread = Swap1.fairSpread();
+        fairRate = Swap1.fairRate();
 
-		/*******************
-		* SWAP 1 REPORTING *
-		********************/
+        /*******************
+        * SWAP 1 REPORTING *
+        ********************/
 
         // utilities for reporting
         std::vector<std::string> headers(4);
@@ -692,89 +698,90 @@ int main(int, char* []) {
         std::cout << std::setw(headers[3].size())
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
-		std::cout << rule << std::endl;
+        std::cout << rule << std::endl;
 
-		/*********************
-		* SWAP 2 TO BE PRICED *
-		**********************/
+        /*********************
+        * SWAP 2 TO BE PRICED *
+        **********************/
 
-		// constant nominal 10000,000 GBP
-		Real nominal2 = 10000000.0;
-		VanillaSwap::Type swapType2 = VanillaSwap::Payer;
-		Date startdate2(04, January, 2013);
-		Date endtdate2(31, January, 2017);
+        // constant nominal 10000,000 GBP
+        Real nominal2 = 10000000.0;
+        VanillaSwap::Type swapType2 = VanillaSwap::Payer;
+        Date startdate2(04, January, 2013);
+        Date endtdate2(31, January, 2017);
 
-		// fixed leg (Party B)
-		Frequency fixedLegFrequency2 = Quarterly;
-		BusinessDayConvention fixedLegConvention2 = ModifiedFollowing;
-		DayCounter fixedLegDayCounter2 = Actual365Fixed();
-		Rate fixedRate2 = 0.00993;
+        // fixed leg (Party B)
+        Frequency fixedLegFrequency2 = Quarterly;
+        BusinessDayConvention fixedLegConvention2 = ModifiedFollowing;
+        DayCounter fixedLegDayCounter2 = Actual365Fixed();
+        Rate fixedRate2 = 0.00993;
 
-		// floating leg (Party A)
-		Frequency floatingLegFrequency2 = Quarterly;
-		BusinessDayConvention floatingLegConvention2 = ModifiedFollowing;
-		DayCounter floatingLegDayCounter2 = Actual365Fixed();
-		Spread spread2 = 0.0;
+        // floating leg (Party A)
+        Frequency floatingLegFrequency2 = Quarterly;
+        BusinessDayConvention floatingLegConvention2 = ModifiedFollowing;
+        DayCounter floatingLegDayCounter2 = Actual365Fixed();
+        Spread spread2 = 0.0;
 
-		//schedule definition
-		Schedule fixedSchedule2(startdate, endtdate,
-			Period(fixedLegFrequency),
-			calendar, fixedLegConvention,
-			fixedLegConvention,
-			DateGeneration::Forward, false);
-		Schedule floatSchedule2(startdate, endtdate,
-			Period(floatingLegFrequency),
-			calendar, floatingLegConvention,
-			floatingLegConvention,
-			DateGeneration::Forward, false);
+        //schedule definition
+        Schedule fixedSchedule2(startdate, endtdate,
+            Period(fixedLegFrequency),
+            calendar, fixedLegConvention,
+            fixedLegConvention,
+            DateGeneration::Forward, false);
+        Schedule floatSchedule2(startdate, endtdate,
+            Period(floatingLegFrequency),
+            calendar, floatingLegConvention,
+            floatingLegConvention,
+            DateGeneration::Forward, false);
 
-		// swap creation
-		VanillaSwap Swap2(swapType2, nominal2,
-			fixedSchedule2, fixedRate2, fixedLegDayCounter2,
-			floatSchedule2, Libor3MIndex, spread2,
-			floatingLegDayCounter2);
+        // swap creation
+        VanillaSwap Swap2(swapType2, nominal2,
+            fixedSchedule2, fixedRate2, fixedLegDayCounter2,
+            floatSchedule2, Libor3MIndex, spread2,
+            floatingLegDayCounter2);
 
-		/***************
-		* SWAP 2 PRICING *
-		****************/
+        /***************
+        * SWAP 2 PRICING *
+        ****************/
 
-		Swap1.setPricingEngine(swapEngine);
+        Swap2.setPricingEngine(swapEngine);
 
-		Real NPV2;
-		Rate fairRate2;
-		Spread fairSpread2;
+        Real NPV2;
+        Rate fairRate2;
+        Spread fairSpread2;
 
-		NPV2 = Swap2.NPV();
-		fairSpread2 = Swap2.fairSpread();
-		fairRate2 = Swap2.fairRate();
+        NPV2 = Swap2.NPV();
+        fairSpread2 = Swap2.fairSpread();
+        fairRate2 = Swap2.fairRate();
 
-		/*******************
-		* SWAP 2 REPORTING *
-		********************/
+        /*******************
+        * SWAP 2 REPORTING *
+        ********************/
 
-		// swap 2
-		std::cout << tab << "swap 1 paying "
-			<< io::rate(fixedRate2) << std::endl;
-		std::cout << headers[0] << separator
-			<< headers[1] << separator
-			<< headers[2] << separator
-			<< headers[3] << separator << std::endl;
-		std::cout << rule << std::endl;
+        // swap 2
+        std::cout << tab << "swap 1 paying "
+            << io::rate(fixedRate2) << std::endl;
+        std::cout << headers[0] << separator
+            << headers[1] << separator
+            << headers[2] << separator
+            << headers[3] << separator << std::endl;
+        std::cout << rule << std::endl;
 
-		std::cout << std::setw(headers[0].size())
-			<< "ois-discounting" << separator;
-		std::cout << std::setw(headers[1].size())
-			<< std::fixed << std::setprecision(2) << NPV2 << separator;
-		std::cout << std::setw(headers[2].size())
-			<< io::rate(fairSpread2) << separator;
-		std::cout << std::setw(headers[3].size())
-			<< io::rate(fairRate2) << separator;
-		std::cout << std::endl;
-		std::cout << rule << std::endl;
+        std::cout << std::setw(headers[0].size())
+            << "ois-discounting" << separator;
+        std::cout << std::setw(headers[1].size())
+            << std::fixed << std::setprecision(2) 
+            << NPV2 << separator;
+        std::cout << std::setw(headers[2].size())
+            << io::rate(fairSpread2) << separator;
+        std::cout << std::setw(headers[3].size())
+            << io::rate(fairRate2) << separator;
+        std::cout << std::endl;
+        std::cout << rule << std::endl;
 
-		/************************
-		* PERFORMANCE REPORTING *
-		*************************/
+        /************************
+        * PERFORMANCE REPORTING *
+        *************************/
 
         double seconds = timer.elapsed();
         Integer hours = int(seconds/3600);
