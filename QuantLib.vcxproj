@@ -498,8 +498,10 @@
     <ClInclude Include="ql\experimental\models\all.hpp" />
     <ClInclude Include="ql\experimental\models\hestonslvfdmmodel.hpp" />
     <ClInclude Include="ql\experimental\models\hestonslvmcmodel.hpp" />
-    <ClInclude Include="ql\instruments\arithmeticaverageois.hpp" />
-    <ClInclude Include="ql\instruments\makearithmeticaverageois.hpp" />
+    <ClInclude Include="ql\indexes\ibor\aonia.hpp" />
+    <ClInclude Include="ql\indexes\ibor\bbsw.hpp" />
+    <ClInclude Include="ql\indexes\ibor\bkbm.hpp" />
+    <ClInclude Include="ql\indexes\ibor\nzocr.hpp" />
     <ClInclude Include="ql\math\polynomialmathfunction.hpp" />
     <ClInclude Include="ql\math\pascaltriangle.hpp" />
     <ClInclude Include="ql\rebatedexercise.hpp" />
@@ -1199,7 +1201,6 @@
     <ClInclude Include="ql\termstructures\volatility\inflation\cpivolatilitystructure.hpp" />
     <ClInclude Include="ql\termstructures\volatility\inflation\yoyinflationoptionletvolatilitystructure.hpp" />
     <ClInclude Include="ql\termstructures\yield\all.hpp" />
-    <ClInclude Include="ql\termstructures\yield\arithmeticoisratehelper.hpp" />
     <ClInclude Include="ql\termstructures\yield\bondhelpers.hpp" />
     <ClInclude Include="ql\termstructures\yield\bootstraptraits.hpp" />
     <ClInclude Include="ql\termstructures\yield\discountcurve.hpp" />
@@ -1245,6 +1246,7 @@
     <ClInclude Include="ql\utilities\dataparsers.hpp" />
     <ClInclude Include="ql\utilities\disposable.hpp" />
     <ClInclude Include="ql\utilities\null.hpp" />
+    <ClInclude Include="ql\utilities\null_deleter.hpp" />
     <ClInclude Include="ql\utilities\observablevalue.hpp" />
     <ClInclude Include="ql\utilities\steppingiterator.hpp" />
     <ClInclude Include="ql\utilities\tracing.hpp" />
@@ -1635,6 +1637,8 @@
     <ClInclude Include="ql\experimental\swaptions\haganirregularswaptionengine.hpp" />
     <ClInclude Include="ql\experimental\swaptions\irregularswap.hpp" />
     <ClInclude Include="ql\experimental\swaptions\irregularswaption.hpp" />
+    <ClInclude Include="ql\experimental\termstructures\all.hpp" />
+    <ClInclude Include="ql\experimental\termstructures\multicurvesensitivities.hpp" />
     <ClInclude Include="ql\experimental\varianceoption\all.hpp" />
     <ClInclude Include="ql\experimental\varianceoption\integralhestonvarianceoptionengine.hpp" />
     <ClInclude Include="ql\experimental\varianceoption\varianceoption.hpp" />
@@ -1674,6 +1678,11 @@
     <ClInclude Include="ql\experimental\amortizingbonds\amortizingcmsratebond.hpp" />
     <ClInclude Include="ql\experimental\amortizingbonds\amortizingfixedratebond.hpp" />
     <ClInclude Include="ql\experimental\amortizingbonds\amortizingfloatingratebond.hpp" />
+    <ClInclude Include="ql\experimental\averageois\all.hpp" />
+    <ClInclude Include="ql\experimental\averageois\arithmeticaverageois.hpp" />
+    <ClInclude Include="ql\experimental\averageois\arithmeticoisratehelper.hpp" />
+    <ClInclude Include="ql\experimental\averageois\averageoiscouponpricer.hpp" />
+    <ClInclude Include="ql\experimental\averageois\makearithmeticaverageois.hpp" />
     <ClInclude Include="ql\experimental\barrieroption\all.hpp" />
     <ClInclude Include="ql\experimental\barrieroption\analyticdoublebarrierbinaryengine.hpp" />
     <ClInclude Include="ql\experimental\barrieroption\analyticdoublebarrierengine.hpp" />
@@ -1776,8 +1785,6 @@
     <ClCompile Include="ql\experimental\finitedifferences\squarerootprocessrndcalculator.cpp" />
     <ClCompile Include="ql\experimental\models\hestonslvfdmmodel.cpp" />
     <ClCompile Include="ql\experimental\models\hestonslvmcmodel.cpp" />
-    <ClCompile Include="ql\instruments\arithmeticaverageois.cpp" />
-    <ClCompile Include="ql\instruments\makearithmeticaverageois.cpp" />
     <ClCompile Include="ql\math\polynomialmathfunction.cpp" />
     <ClCompile Include="ql\math\pascaltriangle.cpp" />
     <ClCompile Include="ql\patterns\observable.cpp" />
@@ -2241,7 +2248,6 @@
     <ClCompile Include="ql\termstructures\volatility\inflation\constantcpivolatility.cpp" />
     <ClCompile Include="ql\termstructures\volatility\inflation\cpivolatilitystructure.cpp" />
     <ClCompile Include="ql\termstructures\volatility\inflation\yoyinflationoptionletvolatilitystructure.cpp" />
-    <ClCompile Include="ql\termstructures\yield\arithmeticoisratehelper.cpp" />
     <ClCompile Include="ql\termstructures\yield\bondhelpers.cpp" />
     <ClCompile Include="ql\termstructures\yield\fittedbonddiscountcurve.cpp" />
     <ClCompile Include="ql\termstructures\yield\flatforward.cpp" />
@@ -2578,6 +2584,10 @@
     <ClCompile Include="ql\experimental\amortizingbonds\amortizingcmsratebond.cpp" />
     <ClCompile Include="ql\experimental\amortizingbonds\amortizingfixedratebond.cpp" />
     <ClCompile Include="ql\experimental\amortizingbonds\amortizingfloatingratebond.cpp" />
+    <ClCompile Include="ql\experimental\averageois\arithmeticaverageois.cpp" />
+    <ClCompile Include="ql\experimental\averageois\arithmeticoisratehelper.cpp" />
+    <ClCompile Include="ql\experimental\averageois\averageoiscouponpricer.cpp" />
+    <ClCompile Include="ql\experimental\averageois\makearithmeticaverageois.cpp" />
     <ClCompile Include="ql\experimental\barrieroption\analyticdoublebarrierbinaryengine.cpp" />
     <ClCompile Include="ql\experimental\barrieroption\analyticdoublebarrierengine.cpp" />
     <ClCompile Include="ql\experimental\barrieroption\discretizeddoublebarrieroption.cpp" />
