@@ -615,7 +615,7 @@ int main(int, char* []) {
 
         // constant nominal 17,500,000 GBP
         Real nominal = 17500000.0;
-        VanillaSwap::Type swapType = VanillaSwap::Payer;
+        VanillaSwap::Type swapType = VanillaSwap::Receiver; //party A receives the fix
         Date startdate(30, September, 2015);
         Date endtdate(31, December, 2018);
 
@@ -712,7 +712,7 @@ int main(int, char* []) {
 
         // constant nominal 10000,000 GBP
         Real nominal2 = 10000000.0;
-        VanillaSwap::Type swapType2 = VanillaSwap::Payer;
+        VanillaSwap::Type swapType2 = VanillaSwap::Receiver; //party A receives the fix
         Date startdate2(04, January, 2013);
         Date endtdate2(31, January, 2017);
 
