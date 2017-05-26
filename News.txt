@@ -1,91 +1,128 @@
 
-Changes for QuantLib 1.9:
-========================
+Changes for QuantLib 1.10:
+==========================
 
-QuantLib 1.9 includes 27 pull requests from several contributors.
+QuantLib 1.10 includes 58 pull requests and fixed issues from several
+contributors.
 
 The most notable changes are included below.
 A detailed list of changes is available in ChangeLog.txt and at
-<https://github.com/lballabio/QuantLib/milestone/3?closed=1>.
+<https://github.com/lballabio/QuantLib/milestone/5?closed=1>.
 
 
 PORTABILITY
 
-- Dropped support for Visual C++ 8 (2005).  As of April 2016, the
-  compiler is no longer supported by Microsoft.
+- Added support for the recently released Visual Studio 2017.
 
-- Allow the parallel test runner to work with Boost 1.62 (thanks to
-  Klaus Spanderen for the fix and to Andrei Borodaenko for the
-  heads-up).
+- Unified Visual Studio solution file.  The provided QuantLib.sln file
+  works for all versions from 2010 to 2017.
+
+- Added support for the recently released Boost 1.64.0 (thanks to
+  Klaus Spanderen).
+
+- Converted non-ASCII characters in source files to UTF-8; this should
+  make them work with most editors (thanks to Krzysztof Woś and Jose
+  Aparicio).
+
+- Fixed some compilation issues with older versions of the Sun CC
+  compiler and with the gcc 3.4 series.  The offending code has simply
+  been disabled; when using those compilers, is also suggested to
+  downgrade Boost to an older version since more recent ones can give
+  problems.  Boost 1.54.0 was reported to work.  It is likely that no
+  further support will be given to these compilers in future releases.
+
+INSTRUMENTS AND PRICING ENGINES
+
+- Added Heston pricing engine based on Fourier-Cosine series
+  expansion (thanks to Klaus Spanderen).
+
+- Added cash annuity model in Black swaption engine (thanks to Peter
+  Caspers, Werner Kuerzinger and Paul Giltinan).
+
+- Add an optional exogenous discount curve to analytic Black European
+  option engine (thanks to Paul Giltinan).
+
+MODELS
+
+- Added collocating local-volatility model (thanks to Klaus Spanderen).
+
+- Optionally disable Feller constraint in Cox-Ingersoll-Ross model
+  (thanks to Oleksandr Khomenko).
 
 INTEREST RATES
 
-- Allow negative jumps in interest-rate curves. Previously, trying to
-  pass one would result in an exception (thanks to Leanpub reader Jeff
-  for the heads-up).
+- Allow using an arbitrary solver to calculate yield (thanks to Daniel
+  Hrabovcak).
 
-- Added BBSW and Aonia indexes from Australia and BKBM and NZOCR
-  indexes from New Zealand (thanks to Fabrice Lecuyer).
+- Update handling of July 4th for US LIBOR fixings (thanks to Oleg
+  Kulkov for the heads-up).
+
+- Added CompoundingThenSimple convention (thanks to Martin Ross).
+
+INFLATION
+
+- Use the lagged reference period to interpolate inflation fixings
+  (thanks to Francois Botha).
 
 VOLATILITY
 
-- Added normal implied-volatility calculation to caps/floors (thanks
-  to Paolo Mazzocchi).
-
-INSTRUMENTS
-
-- Fix a scenario in which a `CompositeInstrument` instance would stop
-  receiving notifications (thanks to Peter Caspers for the heads-up).
-
-- Added a few safety checks to the CVA swap engine (thanks to Andrea
-  Maggiulli).
-
-- Auto-deactivate Boyle-Lau optimization for barrier options when not
-  using a CRR tree (thanks to Riccardo Ghetta).
+- Reduce the memory footprint of OptionletStripper1 (thanks to
+  Matthias Lungwitz)
 
 DATE/TIME
 
-- Changed data type for `Date` serial numbers to `int_fast_32t` to
-  improve performance of date calculations (thanks to Peter Caspers).
+- Updated Chinese calendar for 2017 (thanks to Cheng Li).
 
-- Added ECB maintenance period dates for 2017 (thanks to Paolo
-  Mazzocchi).
+- Added CDS2015 date-generation rule with the correct semiannual
+  frequency (thanks to Guillaume Horel).
 
-- Fixed rule for the Japanese Mountain Day holiday (thanks to Eisuke
-  Tani).
+- The Iceland calendar used to incorrectly adjust New Year's Day to
+  the next Monday when falling on a holiday. That's now fixed (thanks
+  to Stefan Gunnsteinsson for the heads-up).
 
-- Fixed United States holidays before 1971 (thanks to Nick Glass for
-  the heads-up).
+- Fixed bug that prevented correct calculation of an ECB date on the
+  first day of a month (thanks to Nicholas Bertocchi).
 
-- Added a missing Chinese holiday (thanks to Cheng Li).
+- Fixed bug in Schedule that ignored end-of-month convention when
+  calculating reference dates for irregular coupons (thanks to Ryan
+  Taylor).
 
-- Ensure correct formatting when outputting dates (thanks to Peter
-  Caspers).
+- Allow passing a schedule to Actual/Actual day counter for correct
+  calculation of reference dates (thanks to Ryan Taylor).
 
-NEW OPT-IN FEATURES
+MATH
 
-These features are disabled by default and can be enabled by defining
-a macro or passing a flag to `./configure`.  Feedback is appreciated.
+- Added harmonic spline interpolation (thanks to Nicholas Bertocchi).
 
-- Enable thread-safe singleton initialization (thanks to GitHub user
-  sdgit). The feature can be enabled by uncommenting the
-  `QL_ENABLE_SINGLETON_THREAD_SAFE_INIT` macro in `ql/userconfig.hpp`
-  on Visual C++ or by passing the
-  `--enable-thread-safe-singleton-init` to `./configure` on other
-  systems.
+EXAMPLES
 
-EXPERIMENTAL FOLDER
+- Added examples for global optimizers (thanks to Andres Hernandez).
 
-The `ql/experimental` folder contains code whose interface is not
-fully stable, but is released in order to get user
-feedback. Experimental classes make no guarantees of backward
-compatibility; their interfaces might change in future releases.
+DEPRECATED FEATURES
 
-Changes and new contributions for this release were:
+- Removed the SwaptionHelper constructors not taking an explicit
+  volatility type (deprecated in version 1.8).
 
-- OIS with arithmetic average (thanks to Stefano Fondi). A
-  corresponding bootstrap helpers is also available.
+- Removed the SwaptionVolatilityMatrix constructors not taking an
+  explicit volatility type (deprecated in version 1.8).
 
-- a function to calculate multi-curve sensitivities (thanks to Michael
-  von den Driesch).
+- Removed the BlackSwaptionEngine constructor overriding the
+  displacement from the given volatility structure (deprecated in
+  version 1.8).
+
+- Removed the FlatSmileSection and InterpolatedSmileSection
+  constructors not taking an explicit volatility type (deprecated in
+  version 1.8).
+
+- Removed the RiskyAssetSwapOption constructor taking a side
+  (deprecated in version 1.8).
+
+POSSIBLY BREAKING CHANGES
+
+- The constructors of a few Libor-like indexes were made
+  explicit. This means that code such as the following, which used to
+  compile, will now break.  That's probably a good thing.
+
+    Handle<YieldTermStructure> forecast_curve;
+    Euribor6M index = forecast_curve;
 
