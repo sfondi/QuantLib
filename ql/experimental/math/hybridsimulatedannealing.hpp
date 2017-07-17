@@ -30,7 +30,6 @@ Mathl. Comput. Modelling, 967-973, 1989
 #include <ql/math/optimization/constraint.hpp>
 #include <ql/experimental/math/hybridsimulatedannealingfunctors.hpp>
 #include <ql/math/optimization/levenbergmarquardt.hpp>
-#include <boost/make_shared.hpp>
 
 namespace QuantLib {
 
@@ -87,18 +86,17 @@ namespace QuantLib {
             ResetScheme resetScheme = ResetToBestPoint,
             Size resetSteps = 150,
             boost::shared_ptr<OptimizationMethod> localOptimizer
-#if (_MSC_VER <= 1700)
-            = boost::shared_ptr<OptimizationMethod>(new LevenbergMarquardt()),
-#else
-            = boost::make_shared<LevenbergMarquardt>(),
-#endif
+            = boost::shared_ptr<OptimizationMethod>(),
             LocalOptimizeScheme optimizeScheme = EveryBestPoint)
             : sampler_(sampler), probability_(probability),
             temperature_(temperature), reannealing_(reannealing),
             startTemperature_(startTemperature), endTemperature_(endTemperature),
             reAnnealSteps_(reAnnealSteps == 0 ? QL_MAX_INTEGER : reAnnealSteps), resetScheme_(resetScheme),
             resetSteps_(resetSteps == 0 ? QL_MAX_INTEGER : resetSteps), localOptimizer_(localOptimizer),
-            optimizeScheme_(localOptimizer ? optimizeScheme : NoLocalOptimize) {}
+            optimizeScheme_(localOptimizer ? optimizeScheme : NoLocalOptimize) {
+            if (!localOptimizer)
+                localOptimizer.reset(new LevenbergMarquardt);
+        }
 
         EndCriteria::Type minimize(Problem &P, const EndCriteria &endCriteria);
     private:
