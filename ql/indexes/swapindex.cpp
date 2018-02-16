@@ -96,7 +96,8 @@ namespace QuantLib {
                     .withFixedLegTenor(fixedLegTenor_)
                     .withFixedLegConvention(fixedLegConvention_)
                     .withFixedLegTerminationDateConvention(fixedLegConvention_)
-                    .withDiscountingTermStructure(discount_);
+                    .withDiscountingTermStructure(discount_)
+                    .withFloatingLegCalendar(fixingCalendar());
             else
                 lastSwap_ = MakeVanillaSwap(tenor_, iborIndex_, fixedRate)
                     .withEffectiveDate(valueDate(fixingDate))
@@ -104,7 +105,8 @@ namespace QuantLib {
                     .withFixedLegDayCount(dayCounter_)
                     .withFixedLegTenor(fixedLegTenor_)
                     .withFixedLegConvention(fixedLegConvention_)
-                    .withFixedLegTerminationDateConvention(fixedLegConvention_);
+                    .withFixedLegTerminationDateConvention(fixedLegConvention_)
+                    .withFloatingLegCalendar(fixingCalendar());
             lastFixingDate_ = fixingDate;
         }
         return lastSwap_;
