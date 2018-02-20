@@ -111,6 +111,13 @@ namespace QuantLib {
         }
         return lastSwap_;
     }
+    Date SwapIndex::valueDate(const Date& fixingDate) const{
+            QL_REQUIRE(!!iborIndex_.get(), "null ibor Index Found");
+            //Vanilla swap start rule should be coherent with underlying Ibor rate.
+            //For instance, a Libor rate would go forward two business days
+            //according to UK calendar and then adjust with joint calendar.
+            return iborIndex_->valueDate(fixingDate);
+    }
 
     Date SwapIndex::maturityDate(const Date& valueDate) const {
         Date fixDate = fixingDate(valueDate);

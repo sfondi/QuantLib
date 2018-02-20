@@ -60,6 +60,7 @@ namespace QuantLib {
                   const Handle<YieldTermStructure>& discountingTermStructure);
         //! \name InterestRateIndex interface
         //@{
+        Date valueDate(const Date& fixingDate) const;
         Date maturityDate(const Date& valueDate) const;
         //@}
         //! \name Inspectors
