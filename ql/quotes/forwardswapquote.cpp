@@ -35,8 +35,11 @@ namespace QuantLib {
     }
 
     void ForwardSwapQuote::initializeDates() {
+        // if the evaluation date is not a business day
+        // then move to the next business day
+        Date adj_eval_date = swapIndex_->fixingCalendar().adjust(evaluationDate_);
         valueDate_ = swapIndex_->fixingCalendar().advance(
-                                                evaluationDate_,
+                                                adj_eval_date,
                                                 swapIndex_->fixingDays()*Days,
                                                 Following);
         startDate_ = swapIndex_->fixingCalendar().advance(valueDate_,
