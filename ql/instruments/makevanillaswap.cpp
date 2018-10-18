@@ -73,11 +73,8 @@ namespace QuantLib {
             // if the evaluation date is not a business day
             // then move to the next business day
             refDate = floatCalendar_.adjust(refDate);
-            //Vanilla swap start rule should be coherent with underlying Ibor rate.
-            //For instance, a Libor rate would go forward two business days
-            //according to UK calendar and then adjust with joint calendar.
-            QL_REQUIRE(!!iborIndex_.get(), "null ibor Index Found");
-            Date spotDate = iborIndex_->valueDate(refDate);
+            Date spotDate = iborIndex_->fixingCalendar().advance(refDate,
+                                                   settlementDays_*Days);
 
             startDate = spotDate+forwardStart_;
             if (forwardStart_.length()<0)
