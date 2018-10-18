@@ -25,6 +25,7 @@
 #include <ql/termstructures/yield/ratehelpers.hpp>
 #include <ql/time/imm.hpp>
 #include <ql/time/asx.hpp>
+#include <ql/time/calendars/unitedstates.hpp>
 #include <ql/time/calendars/jointcalendar.hpp>
 #include <ql/instruments/makevanillaswap.hpp>
 #include <ql/pricingengines/swap/discountingswapengine.hpp>
@@ -32,8 +33,9 @@
 #include <ql/currency.hpp>
 #include <ql/indexes/swapindex.hpp>
 #include <ql/cashflows/iborcoupon.hpp>
-
 #include <ql/utilities/null_deleter.hpp>
+#include <boost/make_shared.hpp>
+#include <iostream>
 
 using boost::shared_ptr;
 
@@ -849,6 +851,127 @@ namespace QuantLib {
             RateHelper::accept(v);
     }
 
+	FloatFloatSwapRateHelper::FloatFloatSwapRateHelper(const Handle<Quote>& basisSpread,
+														   const Date& effectiveDate,
+														   const Period& tenor,
+														   const Calendar& calendar,
+														   const BusinessDayConvention& convention,
+														   const BusinessDayConvention& terminationDateConvention,
+														   const boost::shared_ptr<IborIndex>& index1,
+														   const boost::shared_ptr<IborIndex>& index2,
+														   const Size& basisLeg,
+														   const Handle<YieldTermStructure>& discountingCurve,
+														   const bool& endOfMonth,
+														   const DayCounter& dayCount1,
+														   const DayCounter& dayCount2,
+														   const Pillar::Choice& pillarChoice,
+														   const Date& customPillarDate)
+	: RelativeDateRateHelper(basisSpread),
+      tenor_(tenor), 
+      index1_(index1),
+      index2_(index2),
+	  basisLeg_(basisLeg),
+	  discountHandle_(discountingCurve){
+	  if (dayCount1.empty()){dayCount1_ = index1_->dayCounter();}
+	  if (dayCount2.empty()){dayCount2_ = index2_->dayCounter();}
+	  tenor1_ = index1_->tenor();
+	  tenor2_ = index2_->tenor();
+	  schedule1_ = Schedule(effectiveDate, calendar.advance(effectiveDate, tenor, Unadjusted), tenor1_, calendar, convention, terminationDateConvention, DateGeneration::Rule::Forward, endOfMonth);
+	  schedule2_ = Schedule(effectiveDate, calendar.advance(effectiveDate, tenor, Unadjusted), tenor2_, calendar, convention, terminationDateConvention, DateGeneration::Rule::Forward, endOfMonth);
+	  // the curve to be bootstrapped is by definition on index2
+	  index2_=index2->clone(termStructureHandle_);
+	  // We want to be notified of changes of fixings, but we don't
+      // want notifications from termStructureHandle_ (they would
+      // interfere with bootstrapping)
+      index2_->unregisterWith(termStructureHandle_);
+	  registerWith(index1_);
+	  registerWith(index2_);
+	  registerWith(discountHandle_);
+	  pillarDate_ = customPillarDate;
+	  pillarChoice_=pillarChoice;
+      initializeDates();
+	}
+
+	void FloatFloatSwapRateHelper::initializeDates(){
+		basisSwap_=boost::make_shared<FloatFloatSwap>(VanillaSwap::Type::Receiver, 1, 1, schedule1_, index1_, 
+					dayCount1_, schedule2_, index2_, dayCount2_);
+		boost::shared_ptr<PricingEngine> basisSwapEngine(new DiscountingSwapEngine(discountHandle_));
+		basisSwap_->setPricingEngine(basisSwapEngine);
+
+		earliestDate_ = basisSwap_->startDate();
+        maturityDate_ = basisSwap_->maturityDate();
+		//Fixing end date could be after maturity date
+		shared_ptr<IborCoupon> lastCouponLeg1 =
+		boost::dynamic_pointer_cast<IborCoupon>(basisSwap_->leg(1).back());
+		Date temp = std::max(maturityDate_, lastCouponLeg1->fixingEndDate());
+		shared_ptr<IborCoupon> lastCouponLeg0 =
+		boost::dynamic_pointer_cast<IborCoupon>(basisSwap_->leg(0).back());
+		latestRelevantDate_= std::max(temp, lastCouponLeg0->fixingEndDate());
+
+		switch (pillarChoice_) {
+        case Pillar::MaturityDate:
+            pillarDate_ = maturityDate_;
+        break;
+        case Pillar::LastRelevantDate:
+            pillarDate_ = latestRelevantDate_;
+        break;
+		case Pillar::CustomDate:
+		// pillarDate_ already assigned at construction time
+			QL_REQUIRE(pillarDate_ >= earliestDate_,
+				"pillar date (" << pillarDate_ << ") must be later "
+				"than or equal to the instrument's earliest date (" <<
+				earliestDate_ << ")");
+			QL_REQUIRE(pillarDate_ <= latestRelevantDate_,
+				"pillar date (" << pillarDate_ << ") must be before "
+				"or equal to the instrument's latest relevant date (" <<
+				latestRelevantDate_ << ")");
+		break;
+		default:
+			QL_FAIL("unknown Pillar::Choice(" << Integer(pillarChoice_) << ")");	
+		}
+
+		latestDate_ = pillarDate_; // backward compatibility
+	}
+
+	void FloatFloatSwapRateHelper::setTermStructure(YieldTermStructure* t) {
+        // do not set the relinkable handle as an observer -
+        // force recalculation when needed
+		bool observer = false;
+
+        shared_ptr<YieldTermStructure> temp(t, null_deleter());
+        termStructureHandle_.linkTo(temp, observer);
+
+        if (discountHandle_.empty())
+            discountRelinkableHandle_.linkTo(temp, observer);
+        else
+            discountRelinkableHandle_.linkTo(*discountHandle_, observer);
+
+        RelativeDateRateHelper::setTermStructure(t);
+    }
+
+	Real FloatFloatSwapRateHelper::impliedQuote() const {
+		QL_REQUIRE(termStructure_ != 0, "term structure not set");
+        // we didn't register as observers - force calculation
+		basisSwap_->recalculate();
+        // weak implementation... to be improved
+		static const Spread basisPoint = 1.0e-4; 
+		if (basisLeg_==0){
+			return (-basisSwap_->NPV()/(basisSwap_->legBPS(0)/basisPoint));} 
+		else{
+			return (-basisSwap_->NPV()/(basisSwap_->legBPS(1)/basisPoint));
+		}
+
+	}
+
+	void FloatFloatSwapRateHelper::accept(AcyclicVisitor& v) {
+		Visitor<FloatFloatSwapRateHelper>* v1 =
+            dynamic_cast<Visitor<FloatFloatSwapRateHelper>*>(&v);
+        if (v1 != 0)
+            v1->visit(*this);
+        else
+            RateHelper::accept(v);
+    }
+
     BMASwapRateHelper::BMASwapRateHelper(
                           const Handle<Quote>& liborFraction,
                           const Period& tenor,
@@ -959,14 +1082,21 @@ namespace QuantLib {
                                        BusinessDayConvention convention,
                                        bool endOfMonth,
                                        bool isFxBaseCurrencyCollateralCurrency,
-                                       const Handle<YieldTermStructure>& coll)
-                                       : RelativeDateRateHelper(fwdPoint), spot_(spotFx), tenor_(tenor),
+                                       const Handle<YieldTermStructure>& coll,
+                                       const Calendar& tradingCalendar)
+    : RelativeDateRateHelper(fwdPoint), spot_(spotFx), tenor_(tenor),
       fixingDays_(fixingDays), cal_(calendar), conv_(convention),
       eom_(endOfMonth),
       isFxBaseCurrencyCollateralCurrency_(isFxBaseCurrencyCollateralCurrency),
-      collHandle_(coll) {
+      collHandle_(coll), tradingCalendar_(tradingCalendar) {
         registerWith(spot_);
         registerWith(collHandle_);
+
+        if (tradingCalendar_.empty())
+            jointCalendar_ = cal_;
+        else
+            jointCalendar_ = JointCalendar(tradingCalendar_, cal_,
+                                           JoinHolidays);
         initializeDates();
     }
 
@@ -975,14 +1105,22 @@ namespace QuantLib {
         // then move to the next business day
         Date refDate = cal_.adjust(evaluationDate_);
         earliestDate_ = cal_.advance(refDate, fixingDays_*Days);
-        latestDate_ = cal_.advance(earliestDate_, tenor_, conv_, eom_);
+
+        if (!tradingCalendar_.empty()) {
+            // check if fx trade can be settled in US, if not, adjust it
+            earliestDate_ = jointCalendar_.adjust(earliestDate_);
+            latestDate_ = jointCalendar_.advance(earliestDate_, tenor_,
+                                                 conv_, eom_);
+        } else {
+            latestDate_ = cal_.advance(earliestDate_, tenor_, conv_, eom_);
+        }
     }
 
     Real FxSwapRateHelper::impliedQuote() const {
         QL_REQUIRE(termStructure_ != 0, "term structure not set");
 
         QL_REQUIRE(!collHandle_.empty(), "collateral term structure not set");
-        
+
         DiscountFactor d1 = collHandle_->discount(earliestDate_);
         DiscountFactor d2 = collHandle_->discount(latestDate_);
         Real collRatio = d1 / d2;
