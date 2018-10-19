@@ -36,11 +36,17 @@ namespace QuantLib {
         OISRateHelper(Natural settlementDays,
                       const Period& tenor, // swap maturity
                       const Handle<Quote>& fixedRate,
-                      const boost::shared_ptr<OvernightIndex>& overnightIndex,
+                      const ext::shared_ptr<OvernightIndex>& overnightIndex,
                       // exogenous discounting curve
                       const Handle<YieldTermStructure>& discountingCurve
                                                = Handle<YieldTermStructure>(),
-                      bool telescopicValueDates = false);
+                      bool telescopicValueDates = false,
+                      Natural paymentLag = 0,
+                      BusinessDayConvention paymentConvention = Following,
+                      Frequency paymentFrequency = Annual,
+                      const Calendar& paymentCalendar = Calendar(),
+                      const Period& forwardStart = 0 * Days, 
+                      const Spread overnightSpread = 0.0);
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
@@ -48,7 +54,7 @@ namespace QuantLib {
         //@}
         //! \name inspectors
         //@{
-        boost::shared_ptr<OvernightIndexedSwap> swap() const { return swap_; }
+        ext::shared_ptr<OvernightIndexedSwap> swap() const { return swap_; }
         //@}
         //! \name Visitability
         //@{
@@ -59,14 +65,21 @@ namespace QuantLib {
 
         Natural settlementDays_;
         Period tenor_;
-        boost::shared_ptr<OvernightIndex> overnightIndex_;
+        ext::shared_ptr<OvernightIndex> overnightIndex_;
 
-        boost::shared_ptr<OvernightIndexedSwap> swap_;
+        ext::shared_ptr<OvernightIndexedSwap> swap_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
 
         Handle<YieldTermStructure> discountHandle_;
         bool telescopicValueDates_;
         RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
+
+        Natural paymentLag_;
+        BusinessDayConvention paymentConvention_;
+        Frequency paymentFrequency_;
+        Calendar paymentCalendar_;
+        Period forwardStart_;
+        Spread overnightSpread_;
     };
 
     //! Rate helper for bootstrapping over Overnight Indexed Swap rates
@@ -76,7 +89,7 @@ namespace QuantLib {
                     const Date& startDate,
                     const Date& endDate,
                     const Handle<Quote>& fixedRate,
-                    const boost::shared_ptr<OvernightIndex>& overnightIndex,
+                    const ext::shared_ptr<OvernightIndex>& overnightIndex,
                       // exogenous discounting curve
                     const Handle<YieldTermStructure>& discountingCurve
                                               = Handle<YieldTermStructure>(),
@@ -91,7 +104,7 @@ namespace QuantLib {
         void accept(AcyclicVisitor&);
         //@}
     protected:
-        boost::shared_ptr<OvernightIndexedSwap> swap_;
+        ext::shared_ptr<OvernightIndexedSwap> swap_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
 
         Handle<YieldTermStructure> discountHandle_;

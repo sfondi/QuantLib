@@ -54,7 +54,7 @@ namespace QuantLib {
         mutable bool initialized_, validCurve_, loopRequired_;
         mutable Size firstAliveHelper_, alive_;
         mutable std::vector<Real> previousData_;
-        mutable std::vector<boost::shared_ptr<BootstrapError<Curve> > > errors_;
+        mutable std::vector<ext::shared_ptr<BootstrapError<Curve> > > errors_;
     };
 
 
@@ -109,7 +109,7 @@ namespace QuantLib {
         // pillar counter: i
         // helper counter: j
         for (Size i=1, j=firstAliveHelper_; j<n_; ++i, ++j) {
-            const boost::shared_ptr<typename Traits::helper>& helper =
+            const ext::shared_ptr<typename Traits::helper>& helper =
                                                         ts_->instruments_[j];
             dates[i] = helper->pillarDate();
             times[i] = ts_->timeFromReference(dates[i]);
@@ -133,7 +133,7 @@ namespace QuantLib {
             if (dates[i] != latestRelevantDate)
                 loopRequired_ = true;
 
-            errors_[i] = boost::shared_ptr<BootstrapError<Curve> >(new
+            errors_[i] = ext::shared_ptr<BootstrapError<Curve> >(new
                 BootstrapError<Curve>(ts_, helper, i));
         }
         ts_->maxDate_ = maxDate;
@@ -162,7 +162,7 @@ namespace QuantLib {
 
         // setup helpers
         for (Size j=firstAliveHelper_; j<n_; ++j) {
-            const boost::shared_ptr<typename Traits::helper>& helper =
+            const ext::shared_ptr<typename Traits::helper>& helper =
                                                         ts_->instruments_[j];
             // check for valid quote
             QL_REQUIRE(helper->quote()->isValid(),
@@ -226,11 +226,16 @@ namespace QuantLib {
                     else
                         firstSolver_.solve(*errors_[i], accuracy,guess,min,max);
                 } catch (std::exception &e) {
-                    // the previous curve state could have been a bad guess
-                    // let's restart without using it
                     if (validCurve_) {
-                        validCurve_ = validData = false;
-                        continue;
+                        // the previous curve state might have been a
+                        // bad guess, so we retry without using it.
+                        // This would be tricky to do here (we're
+                        // inside multiple nested for loops, we need
+                        // to re-initialize...), so we invalidate the
+                        // curve, make a recursive call and then exit.
+                        validCurve_ = initialized_ = false;
+                        calculate();
+                        return;
                     }
                     QL_FAIL(io::ordinal(iteration+1) << " iteration: failed "
                             "at " << io::ordinal(i) << " alive instrument, "

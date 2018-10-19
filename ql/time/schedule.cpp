@@ -465,7 +465,8 @@ namespace QuantLib {
             // remove later dates
             while (result.dates_.back()>truncationDate) {
                 result.dates_.pop_back();
-                result.isRegular_.pop_back();
+                if(!result.isRegular_.empty())
+                    result.isRegular_.pop_back();
             }
 
             // add truncationDate if missing
@@ -510,8 +511,12 @@ namespace QuantLib {
             return Date();
     }
 
+    bool Schedule::hasIsRegular() const {
+        return isRegular_.size() > 0;
+    }
+
     bool Schedule::isRegular(Size i) const {
-        QL_REQUIRE(isRegular_.size() > 0,
+        QL_REQUIRE(hasIsRegular(),
                    "full interface (isRegular) not available");
         QL_REQUIRE(i<=isRegular_.size() && i>0,
                    "index (" << i << ") must be in [1, " <<

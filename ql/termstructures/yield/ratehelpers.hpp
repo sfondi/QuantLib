@@ -7,6 +7,7 @@
  Copyright (C) 2007, 2009 Roland Lichters
  Copyright (C) 2015 Maddalena Zanzi
  Copyright (C) 2015 Paolo Mazzocchi
+ Copyright (C) 2018 Matthias Lungwitz
 
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
@@ -82,12 +83,12 @@ namespace QuantLib {
                           Futures::Type type = Futures::IMM);
         FuturesRateHelper(const Handle<Quote>& price,
                           const Date& iborStartDate,
-                          const boost::shared_ptr<IborIndex>& iborIndex,
+                          const ext::shared_ptr<IborIndex>& iborIndex,
                           const Handle<Quote>& convexityAdjustment = Handle<Quote>(),
                           Futures::Type type = Futures::IMM);
         FuturesRateHelper(Real price,
                           const Date& iborStartDate,
-                          const boost::shared_ptr<IborIndex>& iborIndex,
+                          const ext::shared_ptr<IborIndex>& iborIndex,
                           Rate convexityAdjustment = 0.0,
                           Futures::Type type = Futures::IMM);
         //! \name RateHelper interface
@@ -126,9 +127,9 @@ namespace QuantLib {
                           bool endOfMonth,
                           const DayCounter& dayCounter);
         DepositRateHelper(const Handle<Quote>& rate,
-                          const boost::shared_ptr<IborIndex>& iborIndex);
+                          const ext::shared_ptr<IborIndex>& iborIndex);
         DepositRateHelper(Rate rate,
-                          const boost::shared_ptr<IborIndex>& iborIndex);
+                          const ext::shared_ptr<IborIndex>& iborIndex);
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
@@ -141,7 +142,7 @@ namespace QuantLib {
       private:
         void initializeDates();
         Date fixingDate_;
-        boost::shared_ptr<IborIndex> iborIndex_;
+        ext::shared_ptr<IborIndex> iborIndex_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
     };
 
@@ -171,12 +172,12 @@ namespace QuantLib {
                       Date customPillarDate = Date());
         FraRateHelper(const Handle<Quote>& rate,
                       Natural monthsToStart,
-                      const boost::shared_ptr<IborIndex>& iborIndex,
+                      const ext::shared_ptr<IborIndex>& iborIndex,
                       Pillar::Choice pillar = Pillar::LastRelevantDate,
                       Date customPillarDate = Date());
         FraRateHelper(Rate rate,
                       Natural monthsToStart,
-                      const boost::shared_ptr<IborIndex>& iborIndex,
+                      const ext::shared_ptr<IborIndex>& iborIndex,
                       Pillar::Choice pillar = Pillar::LastRelevantDate,
                       Date customPillarDate = Date());
         FraRateHelper(const Handle<Quote>& rate,
@@ -201,12 +202,12 @@ namespace QuantLib {
                       Date customPillarDate = Date());
         FraRateHelper(const Handle<Quote>& rate,
                       Period periodToStart,
-                      const boost::shared_ptr<IborIndex>& iborIndex,
+                      const ext::shared_ptr<IborIndex>& iborIndex,
                       Pillar::Choice pillar = Pillar::LastRelevantDate,
                       Date customPillarDate = Date());
         FraRateHelper(Rate rate,
                       Period periodToStart,
-                      const boost::shared_ptr<IborIndex>& iborIndex,
+                      const ext::shared_ptr<IborIndex>& iborIndex,
                       Pillar::Choice pillar = Pillar::LastRelevantDate,
                       Date customPillarDate = Date());
         //! \name RateHelper interface
@@ -223,7 +224,7 @@ namespace QuantLib {
         Date fixingDate_;
         Period periodToStart_;
         Pillar::Choice pillarChoice_;
-        boost::shared_ptr<IborIndex> iborIndex_;
+        ext::shared_ptr<IborIndex> iborIndex_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
     };
 
@@ -233,14 +234,15 @@ namespace QuantLib {
     class SwapRateHelper : public RelativeDateRateHelper {
       public:
         SwapRateHelper(const Handle<Quote>& rate,
-                       const boost::shared_ptr<SwapIndex>& swapIndex,
+                       const ext::shared_ptr<SwapIndex>& swapIndex,
                        const Handle<Quote>& spread = Handle<Quote>(),
                        const Period& fwdStart = 0*Days,
                        // exogenous discounting curve
                        const Handle<YieldTermStructure>& discountingCurve
                                                = Handle<YieldTermStructure>(),
                        Pillar::Choice pillar = Pillar::LastRelevantDate,
-                       Date customPillarDate = Date());
+                       Date customPillarDate = Date(),
+                       bool endOfMonth = false);
         SwapRateHelper(const Handle<Quote>& rate,
                        const Period& tenor,
                        const Calendar& calendar,
@@ -249,7 +251,7 @@ namespace QuantLib {
                        BusinessDayConvention fixedConvention,
                        const DayCounter& fixedDayCount,
                        // floating leg
-                       const boost::shared_ptr<IborIndex>& iborIndex,
+                       const ext::shared_ptr<IborIndex>& iborIndex,
                        const Handle<Quote>& spread = Handle<Quote>(),
                        const Period& fwdStart = 0*Days,
                        // exogenous discounting curve
@@ -257,16 +259,18 @@ namespace QuantLib {
                                             = Handle<YieldTermStructure>(),
                        Natural settlementDays = Null<Natural>(),
                        Pillar::Choice pillar = Pillar::LastRelevantDate,
-                       Date customPillarDate = Date());
+                       Date customPillarDate = Date(),
+                       bool endOfMonth = false);
         SwapRateHelper(Rate rate,
-                       const boost::shared_ptr<SwapIndex>& swapIndex,
+                       const ext::shared_ptr<SwapIndex>& swapIndex,
                        const Handle<Quote>& spread = Handle<Quote>(),
                        const Period& fwdStart = 0*Days,
                        // exogenous discounting curve
                        const Handle<YieldTermStructure>& discountingCurve
                                             = Handle<YieldTermStructure>(),
                        Pillar::Choice pillar = Pillar::LastRelevantDate,
-                       Date customPillarDate = Date());
+                       Date customPillarDate = Date(),
+                       bool endOfMonth = false);
         SwapRateHelper(Rate rate,
                        const Period& tenor,
                        const Calendar& calendar,
@@ -275,7 +279,7 @@ namespace QuantLib {
                        BusinessDayConvention fixedConvention,
                        const DayCounter& fixedDayCount,
                        // floating leg
-                       const boost::shared_ptr<IborIndex>& iborIndex,
+                       const ext::shared_ptr<IborIndex>& iborIndex,
                        const Handle<Quote>& spread = Handle<Quote>(),
                        const Period& fwdStart = 0*Days,
                        // exogenous discounting curve
@@ -283,7 +287,8 @@ namespace QuantLib {
                                             = Handle<YieldTermStructure>(),
                        Natural settlementDays = Null<Natural>(),
                        Pillar::Choice pillar = Pillar::LastRelevantDate,
-                       Date customPillarDate = Date());
+                       Date customPillarDate = Date(),
+                       bool endOfMonth = false);
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
@@ -292,7 +297,7 @@ namespace QuantLib {
         //! \name SwapRateHelper inspectors
         //@{
         Spread spread() const;
-        boost::shared_ptr<VanillaSwap> swap() const;
+        ext::shared_ptr<VanillaSwap> swap() const;
         const Period& forwardStart() const;
         //@}
         //! \name Visitability
@@ -308,68 +313,68 @@ namespace QuantLib {
         BusinessDayConvention fixedConvention_;
         Frequency fixedFrequency_;
         DayCounter fixedDayCount_;
-        boost::shared_ptr<IborIndex> iborIndex_;
-        boost::shared_ptr<VanillaSwap> swap_;
+        ext::shared_ptr<IborIndex> iborIndex_;
+        ext::shared_ptr<VanillaSwap> swap_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
         Handle<Quote> spread_;
+        bool endOfMonth_;
         Period fwdStart_;
         Handle<YieldTermStructure> discountHandle_;
         RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
     };
 
-	//! Rate helper for bootstrapping over basis swap spreads
-	// The curve to be bootstrapped is by definition linked on index2
-	// The exogenus forwarding curve is by definition linked on index1
-	// The basis spread can be added both on leg1 or leg2
-	class FloatFloatSwapRateHelper : public RelativeDateRateHelper {
+    //! Rate helper for bootstrapping over basis swap spreads
+    // The curve to be bootstrapped is by definition linked on index2
+    // The exogenus forwarding curve is by definition linked on index1
+    // The basis spread can be added both on leg1 or leg2
+    class FloatFloatSwapRateHelper : public RelativeDateRateHelper {
       public:
-
-		FloatFloatSwapRateHelper(const Handle<Quote>& basisSpread,
-						   const Date& effectiveDate,
-						   const Period& tenor,
-						   const Calendar& calendar,
-						   const BusinessDayConvention& convention,
-						   const BusinessDayConvention& terminationDateConvention,
-						   const boost::shared_ptr<IborIndex>& index1,
-						   const boost::shared_ptr<IborIndex>& index2,
-						   const Size& basisLeg,
-						   const Handle<YieldTermStructure>& discountingCurve
-								 = Handle<YieldTermStructure>(),
-						   const bool& endOfMonth=false,
-						   const DayCounter& dayCount1 = DayCounter(),
-						   const DayCounter& dayCount2 = DayCounter(),
-						   const Pillar::Choice& pillarChoice = Pillar::LastRelevantDate,
-						   const Date& customPillarDate = Date());
+        FloatFloatSwapRateHelper(const Handle<Quote>& basisSpread,
+                                 const Date& effectiveDate,
+                                 const Period& tenor,
+                                 const Calendar& calendar,
+                                 const BusinessDayConvention& convention,
+                                 const BusinessDayConvention& terminationDateConvention,
+                                 const ext::shared_ptr<IborIndex>& index1,
+                                 const ext::shared_ptr<IborIndex>& index2,
+                                 const Size& basisLeg,
+                                 const Handle<YieldTermStructure>& discountingCurve
+                                                      = Handle<YieldTermStructure>(),
+                                 const bool& endOfMonth=false,
+                                 const DayCounter& dayCount1 = DayCounter(),
+                                 const DayCounter& dayCount2 = DayCounter(),
+                                 const Pillar::Choice& pillarChoice = Pillar::LastRelevantDate,
+                                 const Date& customPillarDate = Date());
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
         void setTermStructure(YieldTermStructure*);
         //@}
-		////! \name SwapRateHelper inspectors
+        ////! \name SwapRateHelper inspectors
         //@{
-        boost::shared_ptr<FloatFloatSwap> basisSwap() const;
+        ext::shared_ptr<FloatFloatSwap> basisSwap() const;
         //@}
         //! \name Visitability
         //@{
         void accept(AcyclicVisitor&);
         //@}
-	protected:
+      protected:
         void initializeDates();
-		boost::shared_ptr<FloatFloatSwap> basisSwap_;
+        ext::shared_ptr<FloatFloatSwap> basisSwap_;
         Period tenor_;
-		Handle<YieldTermStructure> discountHandle_;
-		boost::shared_ptr<InterestRateIndex> index1_;
-		boost::shared_ptr<InterestRateIndex> index2_;  
-		Size basisLeg_;
-		DayCounter dayCount1_;
-		DayCounter dayCount2_;
-		Period tenor1_;
-		Period tenor2_;
-		Schedule schedule1_;
-		Schedule schedule2_;
+        Handle<YieldTermStructure> discountHandle_;
+        ext::shared_ptr<InterestRateIndex> index1_;
+        ext::shared_ptr<InterestRateIndex> index2_;  
+        Size basisLeg_;
+        DayCounter dayCount1_;
+        DayCounter dayCount2_;
+        Period tenor1_;
+        Period tenor2_;
+        Schedule schedule1_;
+        Schedule schedule2_;
         RelinkableHandle<YieldTermStructure> discountRelinkableHandle_;
         Pillar::Choice pillarChoice_;
-		Date customPillarDate_;
+        Date customPillarDate_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
 };
 
@@ -384,9 +389,9 @@ namespace QuantLib {
                           const Period& bmaPeriod,
                           BusinessDayConvention bmaConvention,
                           const DayCounter& bmaDayCount,
-                          const boost::shared_ptr<BMAIndex>& bmaIndex,
+                          const ext::shared_ptr<BMAIndex>& bmaIndex,
                           // ibor leg
-                          const boost::shared_ptr<IborIndex>& index);
+                          const ext::shared_ptr<IborIndex>& index);
         //! \name RateHelper interface
         //@{
         Real impliedQuote() const;
@@ -404,10 +409,10 @@ namespace QuantLib {
         Period bmaPeriod_;
         BusinessDayConvention bmaConvention_;
         DayCounter bmaDayCount_;
-        boost::shared_ptr<BMAIndex> bmaIndex_;
-        boost::shared_ptr<IborIndex> iborIndex_;
+        ext::shared_ptr<BMAIndex> bmaIndex_;
+        ext::shared_ptr<IborIndex> iborIndex_;
 
-        boost::shared_ptr<BMASwap> swap_;
+        ext::shared_ptr<BMASwap> swap_;
         RelinkableHandle<YieldTermStructure> termStructureHandle_;
     };
 
@@ -505,11 +510,11 @@ namespace QuantLib {
         return spread_.empty() ? 0.0 : spread_->value();
     }
 
-	inline boost::shared_ptr<FloatFloatSwap> FloatFloatSwapRateHelper::basisSwap() const {
+    inline ext::shared_ptr<FloatFloatSwap> FloatFloatSwapRateHelper::basisSwap() const {
         return basisSwap_;
-	}
+    }
 
-    inline boost::shared_ptr<VanillaSwap> SwapRateHelper::swap() const {
+    inline ext::shared_ptr<VanillaSwap> SwapRateHelper::swap() const {
         return swap_;
     }
 
