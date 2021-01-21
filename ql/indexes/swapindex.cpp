@@ -88,6 +88,7 @@ namespace QuantLib {
             if (exogenousDiscount_)
                 lastSwap_ = MakeVanillaSwap(tenor_, iborIndex_, fixedRate)
                     .withEffectiveDate(valueDate(fixingDate))
+                    .withSettlementDays(fixingDays())
                     .withFixedLegCalendar(fixingCalendar())
                     .withFixedLegDayCount(dayCounter_)
                     .withFixedLegTenor(fixedLegTenor_)
@@ -98,6 +99,7 @@ namespace QuantLib {
             else
                 lastSwap_ = MakeVanillaSwap(tenor_, iborIndex_, fixedRate)
                     .withEffectiveDate(valueDate(fixingDate))
+                    .withSettlementDays(fixingDays())
                     .withFixedLegCalendar(fixingCalendar())
                     .withFixedLegDayCount(dayCounter_)
                     .withFixedLegTenor(fixedLegTenor_)
