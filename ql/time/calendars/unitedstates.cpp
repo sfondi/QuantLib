@@ -133,8 +133,6 @@ namespace QuantLib {
         if (isWeekend(w)
             // New Year's Day (possibly moved to Monday if on Sunday)
             || ((d == 1 || (d == 2 && w == Monday)) && m == January)
-            // (or to Friday if on Saturday)
-            || (d == 31 && w == Friday && m == December)
             // Martin Luther King's birthday (third Monday in January)
             || ((d >= 15 && d <= 21) && w == Monday && m == January
                 && y >= 1983)
